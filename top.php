@@ -1,19 +1,9 @@
-<?php
-require_once('width.php');
-
-// add a menu bar at the top
-print "\t<a id='masthead' href='./#top'><span id='menubut' title='open menu' onclick=\"togviz('menu')\">&#8801;</span></a>\n";
-
-// the actual menu
-print "\t<div id='menu' style='display:none' onclick=\"togviz('menu')\">\n";
-print "\t\t<a href='#education' onclick=\"openme('education')\">Education</a>\n";
-print "\t\t<a href='#skills' onclick=\"openme('skills')\">Skills Matrix</a>\n";
-print "\t\t<a href='#experience' onclick=\"openme('experience')\">Experience</a>\n";
-print "\t\t<a href='dl/MMCV.pdf'>Download</a>\n";
-print "\t\t<a href='https://www.linkedin.com/profile/view?id=76695643'>LinkedIn</a>\n";
-print "\t</div>\n";				// menu
-
-
-// add the cover photo
-require_once('cover.php');
-
+<body>
+<div id='masthead'><span id='menubut' title='menu'>&#8801;</span><a href="#top">Michael Mehmet</a></div>
+<div id='menu' style='display:none'>
+	<a href='#education' data-ref='education'>Education</a>
+	<a href='#skills' data-ref='skills'>Skills Matrix</a>
+	<a href='#experience' data-ref='experience'>Experience</a>
+	<a href='Michael.Mehmet.pdf'>Download</a>
+	<a href='https://www.linkedin.com/profile/view?id=76695643'>LinkedIn</a>
+</div>

@@ -1,144 +1,435 @@
-body
-	{margin:0px;color:#000;font-family:Helvetica,Arial,sans-serif;font-size:16px;background:#fff;height:100%;}
+body {
+	margin: 0px;
+	color: #000;
+	font-family: Helvetica,Arial,sans-serif;
+	font-size: 16px;
+	background: #fff;
+	height: 100%;
+}
 
-h1, h2
-	{font-size:2em;color:#fff;text-shadow:0px 0px 4px #888;text-transform:none;word-wrap:initial;font-family:Helvetica,Arial,sans-serif;font-weight:bold !important;text-rendering:optimizelegibility;padding:0px;border:none;box-sizing:border-box;margin:1em 0px;}
+h1, h2 {
+	text-shadow: 0px 0px 1em rgba(0,0,0,0.5);
+	text-transform: none;
+	word-wrap: initial;
+	font-family: Helvetica,Arial,sans-serif;
+	font-weight: bold !important;
+	text-rendering: optimizelegibility;
+	padding: 0;
+	border: none;
+	box-sizing: border-box;
+	margin: 0 !important;
+}
 
-h2
-	{font-size:1.5em;color:#ff3;margin:-1.5em 0px;}
+h1, .h1 {
+	font-size: 2em !important;
+	color: #fff !important;
+}
 
-a, a:active
-	{text-decoration:none;}
+h2, .h2 {
+	font-size: 1.5em !important;
+	color: #ff3 !important;
+}
 
-.section
-	{margin:3em auto;padding:0px;}
+a, a:active {
+	text-decoration: none;
+}
 
-.section > a
-	{float:left;margin-right:10px;border:1px solid #aaa;background:#efefef;color:#666;width:25px;height:20px;border-radius:0.25em;text-align:center;cursor:pointer;font-size:90%;}
+#masthead {
+	position: fixed;
+	top: 0px;
+	height: 50px;
+	width: 100%;
+	background: rgba(0,0,0,0.5);
+	z-index: 100;
+	cursor: default;
+}
 
-.brochure, .brochure-sm, .dets
-	{color:#fff;text-shadow:0px 0px 2px #000;font-weight:bold;}
+#masthead a, #menubut, #menu a {
+	color: #fff;
+	text-shadow: 0px 0px 2px #000;
+	float: right;
+	margin: 0px 10px;
+	line-height: 50px;
+	text-decoration: none;
+}
 
-.brochure > div, .brochure-sm > div
-	{padding:1em 2.35%;display:inline-block;height:3em;vertical-align:top;width:45%;position:relative;margin-bottom:2px;}
+#menubut, #menu a {
+	font-size: 40px;
+	font-weight: bold;
+}
 
-.brochure-sm > div
-	{padding:2em 2% 1em;height:4em;}
+#menubut:hover, #masthead a:hover, #menu a:hover {
+	color: #ff6;
+	cursor: pointer;
+}
 
-.attr
-	{background:#f46;text-align:right;left:0px;}
+#menu {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	width: 15em;
+	background: rgba(60,60,60,0.85);
+	padding-top: 50px;
+	text-align: center;
+	z-index: 50;
+}
 
-.val
-	{background:#069;right:0px;}
+#menu a {
+	float: none;
+	display: block;
+	margin: 0px;
+	font-size: 20px;
+	border-top: 1px solid #666;
+}
 
-.year
-	{font-size:2em;position:absolute;left:1em;vertical-align:top;}
+#menu a: hover {
+	font-size: 22px;
+	padding: 9px;
+	background: url(../img/greybg.png);
+}
 
-.brochure-sm span.year
-	{font-size:1.5em;left:5px;top:5px;}
+.above_fold {
+	position: relative;
+	text-align: center;
+}
 
-.dets
-	{background:#d53;padding:1em;font-size:1.25em;position:relative;}
+.cover {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	background-color: 000;
+	z-index: -1;
+}
 
-.dets span
-	{position:absolute;right:1em;font-size:0.75em;vertical-align:top;}
+.cover.one {
+	background-image: url(../img/cover.jpg);
+}
 
-.small div.dets span
-	{font-weight:normal;font-size:0.5em;top:5px;right:5px;}
+.cover.two {
+	background-image: url(../img/eledger.jpg);
+}
 
-.roles
-	{background:#bbb;padding:1em 2%;width:96%;font-weight:bold;}
+.cover.three {
+	background-image: url(../img/tedtodd.jpg);
+}
 
-.desc, .tech, .more
-	{padding:10px;background:#efefef;border:1px solid #aaa;border-top:none;}
+.cover.four {
+	background-image: url(../img/megangale.jpg);
+}
 
-.tech
-	{background:#ff9;font-weight:bold;}
+.cover.five {
+	background-image: url(../img/coolcore.jpg);
+}
 
-.more
-	{border-bottom-left-radius:1em;border-bottom-right-radius:1em;text-align:center;color:#666;font-size:0.65em;margin-bottom:2em;}
+.cover.six {
+	background-image: url(../img/gardenstate.jpg);
+}
 
-.more:hover, button:hover
-	{color:#00f;border-color:#66f;background:#fff;cursor:pointer;}
+.outer {
+	position: absolute;
+	top: 1%;
+	left: 1%;
+	width: 98%;
+	height: 98%;
+	display: table;
+}
 
-#masthead
-	{position:fixed;top:0px;height:50px;width:100%;background:url(../img/greybg.png);z-index:100;cursor:default;}
+.inner {
+	display:  table-cell;
+	vertical-align:  middle;
+	text-align:  center;
+}
 
-#menubut, #masthead a, #menu a
-	{color:#fff;font-size:40px;font-weight:bold;text-shadow:0px 0px 2px #000;float:right;margin:0px 10px;}
+#title {
+	font-size: 4vw;
+}
 
-#menubut:hover, #menu a:hover
-	{color:#ff6;cursor:pointer;}
+.section:not(.above_fold) {
+	width:80% !important;
+	margin: auto;
+}
 
-#menu
-	{position:fixed;top:0px;right:0px;width:15em;background:#444;padding-top:50px;text-align:center;z-index:50;}
+.main-nav {
+	text-align: center;
+	margin-top: 2em;
+}
 
-#menu a
-	{float:none;display:block;margin:0px;font-size:20px;padding:10px;border-top:1px solid #666;}
+.main-nav p {
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-weight: 600;
+	border: 1px solid;
+	line-height: 2.5;
+	margin: 0;
+}
 
-#menu a:hover
-	{font-size:22px;padding:9px;background:url(../img/greybg.png);}
+.main-nav.education {
+	color: #6E0D3E;
+}
 
-#cover
-	{width:100%;height:auto;z-index:-10;text-align:center;}
+.main-nav.skills {
+	color: #0D6E3D;
+}
 
-#title, #title-sm
-	{position:absolute;top:20%;left:0px;right:0px;bottom:0px;width:100%;}
+.main-nav.experience {
+	color: #3A6B9E;
+}
 
-#title
-	{font-size:4vw;}
+.main-nav .fa {
+	font-size: 3em;
+	line-height: 5em;
+	width: 100%;
+	color: #fff;
+}
 
-#title-sm
-	{top:50px;}
+.main-nav.education .fa {
+	background: #6E0D3E;
+}
 
-#skills.brochure > div
-	{height:5em;}
+.main-nav.skills .fa {
+	background: #0D6E3D;
+}
 
-#skills.brochure-sm > div
-	{height:18em;padding:0.5em 2%;}
+.main-nav.experience .fa {
+	background: #3A6B9E;
+}
 
-#skills div.attr
-	{background:#288;}
+.main-nav:hover {
+	opacity: 0.65;
+	text-decoration: none;
+}
 
-#skills span
-	{float:right;font-size:1.5em;margin-right:2%;}
+.brochure, .dets {
+	color: #fff;
+	text-shadow: 0px 0px 2px #000;
+	font-weight: bold;
+}
 
-#skills.brochure-sm div.val
-	{font-weight:normal;}
+.brochure > div {
+	padding: 1em 2.35%;
+	display: inline-block;
+	line-height: 3em;
+	vertical-align: top;
+	width: 45%;
+	position: relative;
+	margin-bottom: 2px;
+}
 
-#tail
-	{width:100%;height:100px;color:#fff;margin-top:100px;}
+.attr {
+	background: #f46;
+	text-align: right;
+	left: 0px;
+}
 
-#tail a
-	{color:#fff;}
+.val {
+	background: #069;
+	right: 0px;
+}
 
-#tail img
-	{vertical-align:middle;margin-top:-10px;margin-right:20px;}
+.year {
+	font-size: 2em;
+	position: absolute;
+	left: 1em;
+	vertical-align: top;
+}
 
-#tail span
-	{float:left;width:33%;display:inline-block;}
+.company {
+	margin-bottom: 1em;
+}
 
-#thx, #pdf, #linked
-	{height:60px;padding:20px;text-align:center;background:#63a;font-size:2em;font-weight:bold;text-shadow:0px 0px 2px #304;cursor:default;}
+.dets {
+	background: #d53;
+	font-size: 1.25em;
+	position: relative;
+}
 
-div#thx
-	{height:80px;padding:10px;}
+.dates {
+	position: absolute;
+	right: 1em;
+	font-size: 0.75em;
+	vertical-align: top;
+}
 
-span#thx
-	{padding:30px 20px 10px;}
+.small div.dets span {
+	font-weight: normal;
+	font-size: 0.5em;
+	top: 5px;
+	right: 5px;
+}
 
-#pdf, #linked
-	{background:#c11e07;cursor:pointer;font-size:1em;}
+.roles {
+	background: #bbb;
+	font-weight: bold;
+}
 
-#pdf:hover
-	{background:#900}
+.desc, .tech, .dets, .roles {
+	padding: 1em;
+}
 
-#linked
-	{background:#007fb2;min-width:300px;text-align:right;}
+.desc, .tech {
+	background: #efefef;
+	border: 1px solid #aaa;
+	border-top: none;
+}
 
-#linked:hover
-	{background:#05a}
+.tech {
+	background: #ff9;
+	font-weight: bold;
+}
 
-#lin
-	{font-weight:bold;font-size:1.5em;margin-top:-1.35em;}
+.brochure.skills > div {
+	height: 8em;
+}
 
+.brochure.skills div.attr {
+	background: #288;
+}
+
+.brochure.skills span {
+	float: right;
+	font-size: 1.5em;
+	margin-right: 2%;
+}
+
+.fp-scrollable {
+	margin-bottom: 50px;
+}
+
+#tail {
+	width: 100%;
+	height: 50px;
+	color: #fff;
+	position: fixed;
+	bottom: 0;
+}
+
+#tail a {
+	color: #fff;
+}
+
+#tail img {
+	vertical-align: middle;
+	width: 40px;
+	height: auto;
+	margin-right: 0.5em;
+}
+
+#tail span {
+	float: left;
+	width: 33.3333%;
+	display: inline-block;
+	font-size: 1em;
+}
+
+#thx, #pdf, #linked {
+	line-height: 50px;
+	text-align: center;
+	font-weight: bold;
+	text-shadow: 0px 0px 2px #304;
+	cursor: default;
+}
+
+#thx {
+	background: rgba(102, 51, 170, 0.75);
+	font-size: 2em;
+}
+
+#pdf, #linked {
+	background: rgba(193, 30, 7, 0.75);
+	cursor: pointer;
+}
+
+#pdf:hover {
+	background: #900}
+
+#linked {
+	background: rgba(0, 127, 178, 0.75);
+	padding-right: 5em;
+}
+
+#linked:hover {
+	background: #05a
+}
+
+#linked div {
+	font-size: 0.85em;
+	display: inline-block;
+/* 	width: 15em; */
+	position: absolute;
+	text-align: left;
+	line-height: 25px;
+}
+
+#lin {
+	font-weight: bold;
+	font-size: 1.75em !important;
+	left: 0;
+	top: 1em;
+}
+
+
+
+/* Responsive */
+
+
+@media screen and (max-width:800px) {
+	#masthead {
+		background: rgba(0,0,0,0.85);
+	}
+	.section.above_fold {
+		position: absolute;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		display: table;
+	}
+	#title {
+		display: table-cell;
+		vertical-align: middle;
+	}
+	.section:not(.above_fold) {
+		padding: 2em 0;
+	}
+	.main-nav {
+		padding: 0 !important;
+	}
+	.main-nav .fa {
+		line-height: 3em;
+	}
+	.main-nav p {
+		margin-bottom: 1em;
+	}
+	.brochure > div {
+		width: 100%;
+		padding: 1em;
+		line-height: 1.5em;
+	}
+	.year, .dates, #tail {
+		position: unset;
+	}
+	.year {
+		float: left;
+	}
+	.val, .brochure.skills div.attr {
+		text-align: center;
+	}
+	.brochure.skills > div {
+		height: auto;
+	}
+	.brochure.skills span {
+		margin: 0;
+		float: none;
+	}
+	#tail span {
+		width: 100%;
+		float: none;
+	}
+	#linked {
+		padding-right: 8em;
+	}
+}

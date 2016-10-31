@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]> <html lang="en" class="ie ie6 lte9 lte8 lte7 os-linux"> <![endif]-->
-<!--[if IE 7]> <html lang="en" class="ie ie7 lte9 lte8 lte7 os-linux"> <![endif]-->
-<!--[if IE 8]> <html lang="en" class="ie ie8 lte9 lte8 os-linux"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie ie9 lte9 os-linux"> <![endif]-->
-<!--[if gt IE 9]> <html lang="en" class="os-linux"> <![endif]-->
-<!--[if !IE]><!--> <html lang="en" class="os-linux"> <!--<![endif]-->
+<html lang="en" class="os-linux">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name='Author' content="Michael Mehmet" />
-<?php
-
-
-
-if (isset($meta)) {
-	print "\t<meta name='Description' content=\"$meta\" />\n";
-}
-
-print "\t<title>$titletag</title>\n";
-print "\t<link rel='icon' type='image/png' href='img/favicon.png' />\n";
-print "\t<link rel='stylesheet' type='text/css' href='css/mic.css' />\n";
-print "\t<script language='JavaScript' type='text/javascript' src='js/mic.js'></script>\n";
-print "</head>\n";
-
+	<meta name='Description' content="Senior Developer" />
+	<title>Michael Mehmet | Senior Developer</title>
+	<link rel='icon' type='image/png' href='img/favicon.png' />
+	<link rel='stylesheet' type='text/css' href='css/mic.css' />
+	<link rel='stylesheet' type='text/css' href='css/font-awesome.min.css' />
+	<link rel='stylesheet' type='text/css' href='css/bootstrap.min.css' />
+	<link rel='stylesheet' type='text/css' href='css/jquery.fullPage.css' />
+	<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script language='JavaScript' type='text/javascript' src='js/mic.js'></script>
+	<script language='JavaScript' type='text/javascript' src='js/bootstrap.min.js'></script>
+	<script language='JavaScript' type='text/javascript' src='js/scrolloverflow.min.js'></script>
+	<script language='JavaScript' type='text/javascript' src='js/jquery.fullPage.min.js'></script>
+</head>
