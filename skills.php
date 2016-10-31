@@ -1,9 +1,9 @@
 <?php
 require_once('width.php');
 
-$high = array("HTML", "CSS", "AJAX", "JSON", "XML/XSLT", "Linux System Administration", "Apache", "MySQL", "PHP", "git", "bash", "ssh", "cron");
-$mid = array("mail/Dovecot/Postfix/EXIM/IMAP/POP3", "PEAR/PECL", "Imagemagick", "fPDF", "SOAP/REST", "oauth/API integration", "Java", "Javascript", "Photoshop/GIMP", "Office/Libre Office", "SSL");
-$low = array("Xcode/IOS app development", "Android Studio/Android app development", "various MVC frameworks and IDEs", "Python", "Perl", "Joomla", "jQuery", "Wordpress", "IIS", "Exchange");
+$high = array("HTML", "CSS", "AJAX", "JSON", "XML/XSLT", "Linux", "Apache", "MySQL", "PHP", "git", "bash", "ssh", "cron", "Photoshop/GIMP");
+$mid = array("email server/client setup", "Wordpress plugins/functions/theme customisation", "Javascript", "jQuery", "SOAP/REST/oauth", "Android Studio/Java", "Xcode/Objective C", "SSL/RSA");
+$low = array("Drupal", "Python", "Perl", "Joomla", "IIS", "Exchange");
 
 print "\t<div class='section' style='width:$sectionWidth'>\n";
 

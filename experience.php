@@ -1,7 +1,13 @@
 <?php
 require_once('width.php');
 
-$mehmetech = $cwiz = $staging = $freelance = $intentia = array();
+$zib = $mehmetech = $cwiz = $staging = $freelance = $intentia = array();
+
+$zib['name'] = "Zib Media / Zibit";
+$zib['dates'] = "Dec 2014 - Present";
+$zib['roles'] = "Senior Web & App Developer, IT Administrator";
+$zib['tech'] = "HTML5, CSS3, JSON, Java, Objective C, Javascript, jQuery, AWS, git, Wordpress, GIMP, VPS, ssh/bash";
+$zib['desc'] = "Full Stack Senior Developer, working across teams in both Melbourne and Adelaide. Direct liaison with stakeholders ranging from clients to developers to service providers, to ensure smooth delivery which matches expectations as well as limitations of scope. Management of servers and databases and also the company's internal IT systems. A noteworthy eye for design and creative flair has also led to consultation on a number of projects in need of a new look or 'jazzing up' - or even a complete rebuild from the ground up. Management and development of both web and native mobile applications, including management of dev team and implementation of both internal and external REST services.";
 
 $mehmetech['name'] = "Mehmetech Pty Ltd";
 $mehmetech['dates'] = "Jan 2013 - Nov 2014";
@@ -33,7 +39,7 @@ $intentia['roles'] = "Software Engineer, Operator";
 $intentia['tech'] = "RPG, SQL, Java, AS-400, NT, Solaris";
 $intentia['desc'] = "Working across Operations and Application Engineering (programming) on various projects for mostly large corporate clients like Pizza Hut, Avon, EDS and CBA, primarily working with proprietary ERP technology for the IBM AS-400 mainframe platform but also other platforms like Windows NT and Solaris.";
 
-$xp = array($mehmetech, $cwiz, $staging, $freelance, $intentia);
+$xp = array($zib, $mehmetech, $cwiz, $staging, $freelance, $intentia);
 
 
 
