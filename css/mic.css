@@ -130,6 +130,10 @@ a, a:active {
 	background-image: url(../img/gardenstate.jpg);
 }
 
+.cover.seven {
+	background-image: url(../img/optusperks.jpg);
+}
+
 .outer {
 	position: absolute;
 	top: 1%;
