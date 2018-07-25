@@ -27,6 +27,7 @@
 			var $four = $('.four');
 			var $five = $('.five');
 			var $six = $('.six');
+			var $seven = $('.seven');
 			if ($one.is(':visible')) {
 				$two.fadeToggle("slow","linear");
 				$one.fadeToggle("slow","linear");
@@ -43,11 +44,17 @@
 							$five.fadeToggle("slow","linear");
 							$four.fadeToggle("slow","linear");
 						} else {
-							$six.fadeToggle("slow","linear");
-							if ($five.is(':visible'))
+							if ($five.is(':visible')) {
+								$six.fadeToggle("slow","linear");
 								$five.fadeToggle("slow","linear");
-							else
-								$one.fadeToggle("slow","linear");
+							} else {
+								$seven.fadeToggle("slow","linear");
+								if ($six.is(':visible')) {
+									$six.fadeToggle("slow","linear");
+								} else {
+									$one.fadeToggle("slow","linear");
+								}
+							}
 						}
 					}
 				}
