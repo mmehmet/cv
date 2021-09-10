@@ -215,9 +215,9 @@ a, a:active {
 }
 
 .brochure > div {
-	padding: 1em 2.35%;
+	padding: 3em 2.35%;
 	display: inline-block;
-	line-height: 3em;
+	line-height: 2em;
 	vertical-align: top;
 	width: 45%;
 	position: relative;
