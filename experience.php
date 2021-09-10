@@ -194,50 +194,6 @@ $experience = [
             ],
         ],
     ],
-    [
-        'Staging Connections Pty Ltd' => [
-            'dates' => 'Aug 2004 - Nov 2008',
-            'roles' => ['Operations Manager', 'Systems Administrator', 'Tech Support'],
-            'desc' => 'Lead both dev and systems administration on cloud-based back end inventory management tool - introducing the 
-            technology into operations management. Trained staff and oversaw change management to the new system. 
-            (Note: this project was 2008 only)',
-            'tech' =>  [
-                'HTML4',
-                'AJAX',
-                'XML',
-                'Perl',
-                'Javascript',
-                'ssl/bash',
-                'Apache',
-                'ssl/bash',
-                'some weird DOS based legacy database system',
-            ],
-        ],
-    ],
-    [
-        'freelance/contract' => [
-            'dates' => 'Feb 2000 - Aug 2004',
-            'roles' => ['Lead Developer', 'Web Developer', 'Web Designer', 'Developer'],
-            'desc' => 'Completed various short and long term contracts for customers including the London Borough of Haringey, 
-            Medibank Private, and Showeb. Produced work ranging from front end design and implementation to back end database migration 
-            and even developed (bespoke) in-house solutions for back end systems integration.',
-            'tech' =>  [
-                'HTML4',
-                'CSS',
-                'XML',
-                'Javascript',
-                'ssl/bash',
-                'Apache',
-                'MySQL',
-                'PHP5',
-                'Exchange',
-                'MSSQL',
-                'cpanel',
-                'Microsoft Office',
-                'Photoshop',
-            ],
-        ],
-    ]
 ];
 
 $out = <<<HTML
