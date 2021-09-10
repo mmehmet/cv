@@ -3,15 +3,15 @@
 		<div class='brochure skills'>
 			<div class='attr'><span>Highly Proficient</span></div>
 			<div class='val'>
-				HTML, CSS, JSON, XML, Linux, Apache, MySQL, PHP, git, bash, ssh, cron, AWS, Bootstrap
+				OOP, Laravel, LAMP, Atlassian, AWS, REST, PSR coding standards and best practices, VPN
 			</div>
 			<div class='attr'><span>Competent</span></div>
 			<div class='val'>
-				Laravel, Wordpress, JS, jQuery, REST, Swagger, SSO/oauth, Java, Objective C, RSA/x509, NginX, Photoshop/GIMP, cPanel, Atlassian suite
+                Bootstrap, React, Java, NginX, AMQP, Docker, Vagrant, CI, SQL, NoSQL, UAT
 			</div>
 			<div class='attr'><span>Have Used</span></div>
 			<div class='val'>
-				Python, SOAP, Docker, Vagrant, Angular, Composer, YML, CORS, Gulp, NodeJS, Machine Learning
+				Python, SOAP, Objective C, Node.js, ElasticSearch, Lucene, Lambda, WAF
 			</div>
 		</div>
 	</div>

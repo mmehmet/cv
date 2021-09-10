@@ -13,8 +13,8 @@
 	<link rel='stylesheet' type='text/css' href='css/jquery.fullPage.css' />
 	<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	<script language='JavaScript' type='text/javascript' src='js/mic.js'></script>
-	<script language='JavaScript' type='text/javascript' src='js/bootstrap.min.js'></script>
-	<script language='JavaScript' type='text/javascript' src='js/scrolloverflow.min.js'></script>
-	<script language='JavaScript' type='text/javascript' src='js/jquery.fullPage.min.js'></script>
+	<script type='text/javascript' src='js/mic.js'></script>
+	<script type='text/javascript' src='js/bootstrap.min.js'></script>
+	<script type='text/javascript' src='js/scrolloverflow.min.js'></script>
+	<script type='text/javascript' src='js/jquery.fullPage.min.js'></script>
 </head>
