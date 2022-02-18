@@ -3,15 +3,15 @@
 		<div class='brochure skills'>
 			<div class='attr'><span>Highly Proficient</span></div>
 			<div class='val'>
-				OOP, Laravel, LAMP, Atlassian, AWS, REST, PSR coding standards and best practices, VPN
+				PHP, OOP Best Practices, Laravel, PSR-12, REST, MySQL, AWS, Atlassian, VPN
 			</div>
 			<div class='attr'><span>Competent</span></div>
 			<div class='val'>
-                Bootstrap, React, Java, NginX, AMQP, Docker, Vagrant, CI, SQL, NoSQL, UAT
+                Docker, Vagrant, CI, Bootstrap, jQuery, React, NginX, JWT/OAuth, NoSQL, UAT, TDD, Postman docs
 			</div>
-			<div class='attr'><span>Have Used</span></div>
+			<div class='attr'><span>Some Exposure</span></div>
 			<div class='val'>
-				Python, SOAP, Objective C, Node.js, ElasticSearch, Lucene, Lambda, WAF
+				Typescript, Node.js, Java, ElasticSearch, CORS, Swagger, Python, Machine Learning, Lucene, SOAP, AMQP
 			</div>
 		</div>
 	</div>
