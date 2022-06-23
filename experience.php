@@ -14,7 +14,7 @@ const DS = 'desc';
 const TC = 'tech';
 
 const DATES = [
-    BANXA => 'Mar 2022 - ',
+    BANXA => 'Mar 2022 - Jun 2022',
     TP => 'Nov 2021 - Feb 2022',
     VC => 'Oct 2018 - Nov 2021',
     LC => 'Dec 2016 - Oct 2018',
