@@ -7,6 +7,7 @@ const LC = 'Loyalty Corp / EonX';
 const ZIB = 'Zib Digital / Zibit';
 const MEHMETECH = 'Mehmetech Pty Ltd';
 const MMCS = 'Mic Mehmet Computer Services Pty Ltd';
+const GLOW = 'Glow / Engagement Innovation';
 
 const DT = 'dates';
 const RL = 'roles';
@@ -14,6 +15,7 @@ const DS = 'desc';
 const TC = 'tech';
 
 const DATES = [
+    GLOW => 'Sep 2022 - ',
     BANXA => 'Mar 2022 - Jun 2022',
     TP => 'Nov 2021 - Feb 2022',
     VC => 'Oct 2018 - Nov 2021',
@@ -24,6 +26,7 @@ const DATES = [
 ];
 
 const ROLES = [
+    GLOW => ['Senior PHP and Back End Systems Engineer'],
     BANXA => ['Senior PHP Developer', 'Platform Engineering', 'Backend Lead'],
     TP => ['Senior PHP Developer', 'DevOps', 'BA'],
     VC => ['Senior PHP Developer', 'DevOps', 'SecOps', 'Head of Integrations'],
@@ -34,6 +37,13 @@ const ROLES = [
 ];
 
 const DESC = [
+    GLOW => 'Utilising a variety of languages, frameworks, and databases but mainly working with PHP, Symfony, and
+    MongoDB to produce and maintain various back-end services to several front-end resources. Creating and managing
+    more Lamda-based microservices which enable communication with both internal and external resources as well as
+    complex event-based activities using those external services. Providing advice, ideas, and input relating to the
+    end-to-end tech stack and potential solutions to problems, as well as best-practices, particularly with regards to
+    documentation and management of both Business and Technical information across the organisation and accessed by
+    various stakeholders.',
     BANXA => 'Primarily using the Laravel framework, working with small team dedicated to "core" back end processing of
     Crypto Payment Services to consumers and leading Exchanges worldwide as well as supporting all relevant back of
     house processes, specifically looking after the Pricing engine. Maintaining and improving solution designs for the
@@ -83,6 +93,29 @@ const DESC = [
 ];
 
 const TECH = [
+    GLOW => [
+        'Symfony',
+        'MongoDB',
+        'Docker',
+        'REST',
+        'PHP7',
+        'PHP8',
+        'phpunit',
+        'yarn',
+        'jasmine/karma',
+        'Angular',
+        'Slack',
+        'JIRA',
+        'Confluence',
+        'Trello',
+        'S3',
+        'SQS',
+        'CloudWatch',
+        'CodePipeline',
+        'CodeBuild',
+        'Lambda',
+        'HubSpot private APIs',
+    ],
     BANXA => [
         'Laravel',
         'Docker',
@@ -109,7 +142,6 @@ const TECH = [
         'REST',
         'Docker',
         'Vagrant',
-        'Azure',
         'GitHub',
         'PHP 7.4',
         'PHP 8.1',
@@ -121,7 +153,8 @@ const TECH = [
         'JIRA',
         'Asana',
         'Facebook Graph API/Javascript SDK',
-        'PHPStorm',
+        'GCP/Google Cloud APIs',
+        'Azure/API Apps',
     ],
     VC => [
         'Laravel',
@@ -129,7 +162,6 @@ const TECH = [
         'React',
         'Node.js',
         'REST',
-        'Lambda-based microservices',
         'oAuth',
         'Docker',
         'Vagrant',
@@ -150,9 +182,13 @@ const TECH = [
         'Slack',
         'Postman - including API documentation',
         'Atlassian suite',
-        'AWS',
+        'S3',
+        'SQS',
+        'EC2',
+        'IAM',
+        'CodeDeploy',
+        'Lambda',
         'VPN',
-        'PHPStorm',
     ],
     LC => [
         'Laravel',
@@ -258,6 +294,12 @@ const TECH = [
 ];
 
 const EXPERIENCE = [
+    GLOW => [
+        DT => DATES[GLOW],
+        RL => ROLES[GLOW],
+        DS => DESC[GLOW],
+        TC =>  TECH[GLOW],
+    ],
     BANXA => [
         DT => DATES[BANXA],
         RL => ROLES[BANXA],
