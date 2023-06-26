@@ -2,7 +2,7 @@
 
 const BANXA = 'Banxa';
 const TP = 'The Pistol';
-const VC = 'VidCorp';
+const VC = 'VidCorp / Tall Bob';
 const LC = 'Loyalty Corp / EonX';
 const ZIB = 'Zib Digital / Zibit';
 const MEHMETECH = 'Mehmetech Pty Ltd';
@@ -39,7 +39,7 @@ const ROLES = [
 const DESC = [
     GLOW => 'Utilising a variety of languages, frameworks, and databases but mainly working with PHP, Symfony, and
     MongoDB to produce and maintain various back-end services to several front-end resources. Creating and managing
-    more Lamda-based microservices which enable communication with both internal and external resources as well as
+    Lamda-based microservices which enable communication with both internal and external resources as well as
     complex event-based activities using those external services. Providing advice, ideas, and input relating to the
     end-to-end tech stack and potential solutions to problems, as well as best-practices, particularly with regards to
     documentation and management of both Business and Technical information across the organisation and accessed by
