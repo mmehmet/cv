@@ -30,6 +30,10 @@ h2, .h2 {
 	color: #ff3 !important;
 }
 
+h3.experience {
+	padding-top: 2em;
+}
+
 a, a:active {
 	text-decoration: none;
 }
