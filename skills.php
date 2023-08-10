@@ -11,7 +11,7 @@
 			</div>
 			<div class='attr'><span>Some Exposure</span></div>
 			<div class='val'>
-                Java, ElasticSearch, Swagger, MongoDB, AMQP, AWS CLI, TensorFlow
+                Java, ElasticSearch, Swagger, MongoDB, AMQP, AWS CLI, PostgreSQL, Redis
 			</div>
 		</div>
 	</div>
