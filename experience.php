@@ -63,6 +63,8 @@ const TECH = [
         'PHP8',
         'phpunit',
         'jasmine/karma',
+        'Serverless',
+        'bref',
         'Slack API',
         'Jira',
         'Confluence',

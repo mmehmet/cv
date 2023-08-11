@@ -7,7 +7,7 @@
 			</div>
 			<div class='attr'><span>Competent</span></div>
 			<div class='val'>
-                Docker, VM, Node, jQuery, React, NginX, Typescript, Postman docs, PyTorch
+                Docker, VM, Node, jQuery, React, NginX, Typescript, Postman docs, Serverless
 			</div>
 			<div class='attr'><span>Some Exposure</span></div>
 			<div class='val'>
