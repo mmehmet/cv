@@ -11,6 +11,7 @@ require_once('cover.php');
 include_once('summary.php');
 include_once('education.php');
 include_once('skills.php');
+include_once('sites.php');
 include_once('experience.php');
 
 print "</div>\n";
