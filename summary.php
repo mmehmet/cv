@@ -8,19 +8,24 @@
 
 		<p>I have built entire monoliths using <a href="https://www.php.net">PHP</a> frameworks like <a href="https://github.com/laravel/laravel">Laravel</a> and simple microservices made out of <a href="https://www.typescriptlang.org/">Typescript</a> and <a href="https://nodejs.org/">Node</a>. I have also created themes/plugins for platforms like <a href="https://wordpress.org/download/">Wordpress</a> and <a href="https://www.shopify.com/">Shopify</a> and single-page-apps using <a href="https://reactjs.org/">React</a>.</p>
 
-		<a href="#education" class="main-nav education col-sm-4">
+		<a href="#education" class="main-nav education col-sm-3 col-xs-12">
 			<i class="fa fa-graduation-cap" aria-hidden="true"></i>
 			<p class="h4">education</p>
 		</a>
 
-		<a href="#skills" class="main-nav skills col-sm-4">
+		<a href="#skills" class="main-nav skills col-sm-3 col-xs-12">
 			<i class="fa fa-wrench" aria-hidden="true"></i>
 			<p class="h4">skills</p>
 		</a>
 
-		<a href="#experience" class="main-nav experience col-sm-4">
-			<i class="fa fa-puzzle-piece" aria-hidden="true"></i>
-			<p class="h4">experience</p>
+		<a href="#sites" class="main-nav sites col-sm-3 col-xs-12">
+			<i class="fa fa-thumb-tack" aria-hidden="true"></i>
+			<p class="h4">websites</p>
 		</a>
+
+        <a href="#experience" class="main-nav experience col-sm-3 col-xs-12">
+            <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+            <p class="h4">experience</p>
+        </a>
 
 	</div>
