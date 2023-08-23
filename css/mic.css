@@ -88,7 +88,7 @@ a, a:active {
 
 #menu a:hover {
 	font-size: 22px;
-	padding: 9px;
+	/*padding: 9px;*/
 	background: url(../img/greybg.png);
 }
 
@@ -184,8 +184,12 @@ a, a:active {
 	color: #0D6E3D;
 }
 
+.main-nav.sites {
+	color: #669;
+}
+
 .main-nav.experience {
-	color: #3A6B9E;
+	color: #e84;
 }
 
 .main-nav .fa {
@@ -203,8 +207,12 @@ a, a:active {
 	background: #0D6E3D;
 }
 
+.main-nav.sites .fa {
+	background: #669;
+}
+
 .main-nav.experience .fa {
-	background: #3A6B9E;
+	background: #e84;
 }
 
 .main-nav:hover {
@@ -218,7 +226,7 @@ a, a:active {
 	font-weight: bold;
 }
 
-.brochure > div {
+.brochure > div, .brochure > a {
 	padding: 3em 2.35%;
 	display: inline-block;
 	line-height: 2em;
@@ -300,6 +308,25 @@ a, a:active {
 	float: right;
 	font-size: 1.5em;
 	margin-right: 2%;
+}
+
+.brochure.sites {
+	margin-top: 2em;
+}
+
+.brochure.sites > div {
+	height: 4em;
+	padding-top: 1em;
+	width: 60%;
+}
+
+.brochure.sites .attr {
+	background: #447;
+	width: 30%;
+}
+
+.brochure.sites a {
+	color: #ffa;
 }
 
 .fp-scrollable {
