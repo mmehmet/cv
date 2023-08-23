@@ -7,7 +7,7 @@
 	<meta name='Description' content="Senior Developer" />
 	<title>Michael Mehmet | Senior Developer</title>
 	<link rel='icon' type='image/png' href='img/favicon.png' />
-	<link rel='stylesheet' type='text/css' href='css/mic.css?v=2.0.1' />
+	<link rel='stylesheet' type='text/css' href='css/mic.css?v=2.0.2' />
 	<link rel='stylesheet' type='text/css' href='css/font-awesome.min.css' />
 	<link rel='stylesheet' type='text/css' href='css/bootstrap.min.css' />
 	<link rel='stylesheet' type='text/css' href='css/jquery.fullPage.css' />
