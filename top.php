@@ -6,6 +6,6 @@
 	<a href='#sites' data-ref='experience'>Websites</a>
     <a href='#experience' data-ref='experience'>Experience</a>
 	<a href='Michael.Mehmet.pdf'>Download</a>
-	<a href='https://www.linkedin.com/profile/view?id=76695643'>LinkedIn</a>
+	<a href='https://www.linkedin.com/in/micmehmet/'>LinkedIn</a>
     <a href='https://github.com/mmehmet'>GitHub</a>
 </div>
