@@ -1,0 +1,22 @@
+[
+  {
+    "name": "eLedger",
+    "description": "A full cloud accounting platform with its own fully documented API, recently modernised with a new front end. Free to use right now."
+  },
+  {
+    "name": "Backgammon app",
+    "description": "A complete mobile backgammon app, complete with AI opponent, shipped to the App Store."
+  },
+  {
+    "name": "Simple Clock app",
+    "description": "A deliberately simple clock app built and shipped for mobile, to give a second life to old devices sitting in a drawer somewhere."
+  },
+  {
+    "name": "XBattle",
+    "description": "A Godot-based recreation of the classic XBattle strategy game. Multiplyer. Released and downloadable."
+  },
+  {
+    "name": "Home Automation",
+    "description": "An ongoing home automation project which so far has a custom Android app, web interface, and local AI backend that includes voice commands."
+  }
+]
