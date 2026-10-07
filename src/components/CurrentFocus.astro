@@ -1,0 +1,83 @@
+---
+import '../styles/focus.css';
+---
+
+<section id="focus" class="current-focus section section--dark">
+  <div class="container current-focus__inner">
+    <div class="current-focus__copy">
+      <p class="eyebrow">Current Focus</p>
+
+      <h2>
+        AI is only one part <span>of the system.</span>
+      </h2>
+
+      <p class="lead">
+        My current work explores how real-time voice, open-weight models,
+        dedicated inference hardware, orchestration, tools, memory, and
+        application logic fit together to create useful AI systems.
+      </p>
+
+      <p class="current-focus__secondary">
+        The interesting problems are rarely just about choosing a model.
+        They’re about everything around it: latency, context, routing,
+        reliability, interfaces, and deciding what should happen where.
+      </p>
+    </div>
+
+    <div class="current-focus__system" aria-label="Simplified AI system architecture">
+      <div class="focus-node focus-node--voice">
+        <span class="focus-node__index">01</span>
+        <strong>Input</strong>
+        <small>Telephone audio or realtime text enters the system</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--speech">
+        <span class="focus-node__index">02</span>
+        <strong>Data</strong>
+        <small>Audio processing, transcription and data acquisition</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--orchestration">
+        <span class="focus-node__index">03</span>
+        <strong>Orchestration</strong>
+        <small>Context, state, tools, longterm strategy, and immediate routing</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--model">
+        <span class="focus-node__index">04</span>
+        <strong>Processing</strong>
+        <small>Inference or code executes on local hardware</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--response">
+        <span class="focus-node__index">05</span>
+        <strong>Response</strong>
+        <small>Useful output returned as text or streaming audio</small>
+      </div>
+    </div>
+
+    <div class="current-focus__aside">
+      <span>TOOLS</span>
+      <span>MEMORY</span>
+      <span>RETRIEVAL</span>
+      <span>APPLICATION LOGIC</span>
+      <span>LOCAL INFERENCE</span>
+    </div>
+  </div>
+</section>

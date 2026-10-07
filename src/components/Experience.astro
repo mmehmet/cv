@@ -1,0 +1,128 @@
+---
+import '../styles/experience.css';
+import experience from '../data/experience.json';
+
+const formatYear = (value: string | null) => {
+  if (!value) return 'Present';
+  return value.slice(0, 4);
+};
+
+const visibleExperience = experience.filter((item) =>
+  ![
+    'Zib Digital',
+    'Mehmetech Pty Ltd',
+  ].includes(item.company)
+);
+---
+
+<section id="experience" class="experience section section--light">
+  <div class="container">
+    <div class="experience__teaser">
+      <div class="experience__copy">
+        <p class="eyebrow">Experience</p>
+
+        <h2>Knowledge compounds.</h2>
+
+        <p class="lead">
+          All the knowledge and experience I bring was forged over time - and is part of the package. 
+        </p>
+
+        <button
+          class="button button--primary experience__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="experience-panel"
+        >
+          See my experience
+        </button>
+      </div>
+
+      <div class="experience__image" aria-hidden="true"></div>
+    </div>
+
+    <div
+      id="experience-panel"
+      class="experience__panel"
+    >
+      <div class="experience__grid">
+        {
+          visibleExperience.map((item) => (
+            <details class="experience-card">
+              <summary class="experience-card__summary">
+                <div class="experience-card__heading">
+                  <div>
+                    <h3>{item.company}</h3>
+
+                    <span class="experience-card__dates">
+                      {formatYear(item.start)} – {formatYear(item.end)}
+                    </span>
+                  </div>
+
+                  <span class="experience-card__toggle" aria-hidden="true">
+                    <span class="experience-card__plus">+</span>
+                    <span class="experience-card__minus">−</span>
+                  </span>
+                </div>
+
+                <div class="experience-card__tags">
+                  {
+                    item.technologies.slice(0, 4).map((technology) => (
+                      <span>{technology}</span>
+                    ))
+                  }
+                </div>
+
+                <p>{item.summary}</p>
+              </summary>
+
+              <div class="experience-card__detail">
+                <p class="experience-card__description">
+                  {item.description}
+                </p>
+
+                <div class="experience-card__all-tech">
+                  {
+                    item.technologies.map((technology) => (
+                      <span>{technology}</span>
+                    ))
+                  }
+                </div>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.querySelector<HTMLElement>('.experience');
+  const toggle = document.querySelector<HTMLButtonElement>('.experience__toggle');
+  const panel = document.querySelector<HTMLElement>('.experience__panel');
+  const cards = document.querySelectorAll<HTMLDetailsElement>('.experience-card');
+
+  toggle?.addEventListener('click', () => {
+    if (!section || !panel) return;
+
+    const open = section.classList.toggle('experience--open');
+
+    toggle.setAttribute('aria-expanded', String(open));
+
+    toggle.textContent = open
+      ? 'Show less'
+      : 'See my experience';
+  });
+
+  cards.forEach((card) => {
+    card.addEventListener('toggle', () => {
+      if (!card.open) return;
+
+      cards.forEach((other) => {
+        if (other !== card) {
+          other.open = false;
+        }
+      });
+    });
+  });
+</script>

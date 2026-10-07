@@ -1,0 +1,276 @@
+.current-focus {
+  position: relative;
+  min-height: calc(100vh - var(--header-height));
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 72% 30%,
+      rgba(134, 92, 255, 0.2),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 18% 82%,
+      rgba(53, 200, 230, 0.12),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      #0b0e1b 0%,
+      #10152a 48%,
+      #151b34 100%
+    );
+}
+
+.current-focus::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.8),
+      transparent 90%
+    );
+
+  pointer-events: none;
+}
+
+.current-focus__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.current-focus__copy {
+  max-width: 900px;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.current-focus__copy h2 {
+  max-width: 12ch;
+  margin-bottom: 1.5rem;
+}
+
+.current-focus__copy h2 span {
+  color: var(--yellow);
+}
+
+.current-focus__secondary {
+  max-width: 720px;
+  margin: 1.5rem 0 0;
+
+  color: var(--muted-on-dark);
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  line-height: 1.7;
+}
+
+.current-focus__system {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 1fr)
+    auto
+    minmax(150px, 1fr)
+    auto
+    minmax(170px, 1.1fr)
+    auto
+    minmax(150px, 1fr)
+    auto
+    minmax(150px, 1fr);
+
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.focus-node {
+  position: relative;
+  min-height: 180px;
+  padding: 1.25rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-md);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.025)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 16px 38px rgba(0, 0, 0, 0.22);
+
+  backdrop-filter: blur(12px);
+  font-family: "Inter", sans-serif;
+
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    background 220ms ease;
+}
+
+.focus-node:hover {
+  transform: scale(1.035);
+
+  border-color: rgba(53, 200, 230, 0.5);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(53, 200, 230, 0.13),
+      rgba(134, 92, 255, 0.08)
+    );
+}
+
+.focus-node__index {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--cyan);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.focus-node strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.15rem;
+}
+
+.focus-node small {
+  display: block;
+  margin-top: 0.5rem;
+
+  color: var(--muted-on-dark);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.focus-link {
+  width: 34px;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(53, 200, 230, 0.2),
+      var(--cyan),
+      rgba(134, 92, 255, 0.45)
+    );
+}
+
+.focus-link span {
+  display: block;
+  width: 7px;
+  height: 7px;
+
+  margin-top: -3px;
+  margin-left: 40%;
+
+  border-radius: 50%;
+  background: var(--cyan);
+
+  box-shadow:
+    0 0 10px rgba(53, 200, 230, 0.8);
+}
+
+.current-focus__aside {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+
+  margin-top: 2.5rem;
+}
+
+.current-focus__aside span {
+  padding: 0.45rem 0.8rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: var(--muted-on-dark);
+
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 1050px) {
+  .current-focus__system {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .focus-node {
+    min-height: 130px;
+  }
+
+  .focus-link {
+    width: 1px;
+    height: 28px;
+    margin-inline: auto;
+
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(53, 200, 230, 0.2),
+        var(--cyan),
+        rgba(134, 92, 255, 0.45)
+      );
+  }
+
+  .focus-link span {
+    margin-top: 40%;
+    margin-left: -3px;
+  }
+}
+
+@media (max-width: 700px) {
+  .current-focus {
+    min-height: auto;
+  }
+
+  .current-focus__copy {
+    margin-bottom: 2.75rem;
+  }
+
+  .current-focus__copy h2 {
+    max-width: none;
+  }
+
+  .current-focus__secondary {
+    font-size: 0.95rem;
+  }
+
+  .focus-node {
+    min-height: 120px;
+  }
+
+  .current-focus__aside {
+    justify-content: flex-start;
+  }
+}
