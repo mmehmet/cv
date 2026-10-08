@@ -45,28 +45,15 @@
   min-height: 420px;
   border-radius: var(--radius-lg);
   overflow: hidden;
+  border-width: 1px;
+  border-color: #999;
 
   background:
-    radial-gradient(
-      circle at 28% 30%,
-      rgba(255, 216, 77, 0.9),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 72% 34%,
-      rgba(255, 111, 97, 0.74),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 58% 72%,
-      rgba(79, 109, 245, 0.65),
-      transparent 34%
-    ),
     linear-gradient(
       145deg,
-      #fff7d6 0%,
-      #ffe6db 48%,
-      #e7ebff 100%
+      #382d04 0%,
+      #2a0f03 48%,
+      #06176d 100%
     );
 
   box-shadow:
@@ -79,26 +66,18 @@
     filter 360ms ease;
 }
 
-.experience__image::before,
-.experience__image::after {
-  content: "";
+.experience__image img {
   position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(23, 32, 51, 0.1);
-}
+  inset: 0;
 
-.experience__image::before {
-  width: 240px;
-  height: 240px;
-  top: 52px;
-  left: 48px;
-}
+  width: 100%;
+  height: 100%;
 
-.experience__image::after {
-  width: 330px;
-  height: 330px;
-  right: -72px;
-  bottom: -84px;
+  object-fit: cover;
+  object-position: center top;
+
+  transform: scale(1.05);
+  transform-origin: center top;
 }
 
 .experience__panel {
@@ -157,8 +136,8 @@
 }
 
 .experience--open .experience__image {
-  transform: scale(0.96);
-  opacity: 0.34;
+  transform: scale(0.98);
+  opacity: 0.52;
   filter: saturate(0.8);
 }
 

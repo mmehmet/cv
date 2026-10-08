@@ -31,42 +31,77 @@
   overflow: hidden;
 }
 
-.hero__visual::before,
-.hero__visual::after {
-  content: "";
+.hero__visual-base, .hero__visual-pawl {
   position: absolute;
-  border-radius: 999px;
-  filter: blur(8px);
-  opacity: 0.9;
+  top: 22%;
+  right: -40vw;
+
+  width: min(100vw, 1440px);
+  max-width: none;
+  height: auto;
+
+  opacity: 0.45;
+  filter: blur(10px);
+
+  transform: rotate(22deg);
+  transform-origin: center center;
 }
 
-.hero__visual::before {
-  width: min(42vw, 620px);
-  aspect-ratio: 1;
-  right: -8vw;
-  top: 12%;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(79, 109, 245, 0.9),
-      rgba(134, 92, 255, 0.72) 48%,
-      rgba(53, 200, 230, 0.78)
-    );
-  transform: rotate(-12deg);
+.hero__visual-pawl {
+  right: -82vw;
+  transform: rotate(0);
 }
 
-.hero__visual::after {
-  width: min(30vw, 420px);
-  aspect-ratio: 1;
-  right: 16vw;
-  bottom: -14%;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 216, 77, 0.86),
-      rgba(255, 111, 97, 0.72)
-    );
-  transform: rotate(18deg);
+.hero__visual-base {
+  animation: hero-gear 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  will-change: transform;
+}
+
+.hero__visual-pawl {
+  animation: hero-pawl 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes hero-gear {
+  /* Pawl is engaged */
+  0%,
+  16% {
+    transform: rotate(22deg);
+  }
+
+  /* Pawl has withdrawn; gear turns to next tooth */
+  64% {
+    transform: rotate(67deg);
+  }
+
+  /* Pause at the next alignment point */
+  100% {
+    transform: rotate(67deg);
+  }
+}
+
+@keyframes hero-pawl {
+  /* Start seated in the cog */
+  0%,
+  10% {
+    transform: translateY(0);
+  }
+
+  /* Pull upward */
+  18%,
+  62% {
+    transform: translateY(-90px);
+  }
+
+  /* Drop back toward the next gap */
+  72% {
+    transform: translateY(-90px);
+  }
+
+  82%,
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .hero__inner {
@@ -180,18 +215,16 @@
 }
 
 @media (max-width: 900px) {
-  .hero__visual::before {
-    width: 52vw;
-    right: -14vw;
-    top: 18%;
-    opacity: 0.72;
+  .hero__visual-base, .hero__visual-pawl {
+    top: 35%;
+    right: max(-70vw, -350px);
+    width: min(160vw, 900px);
+    opacity: 0.15;
+    filter: blur(6px);
   }
 
-  .hero__visual::after {
-    width: 42vw;
-    right: 4vw;
-    bottom: -8%;
-    opacity: 0.72;
+  .hero__visual-pawl {
+    right: max(-137vw, -725px);
   }
 
   .hero__copy {
@@ -210,18 +243,14 @@
     padding-bottom: 1.25rem;
   }
 
-  .hero__visual::before {
-    width: 78vw;
-    right: -36vw;
-    top: 24%;
-    opacity: 0.48;
+  .hero__visual-base, .hero__visual-pawl {
+    top: 54%;
+    right: -12rem;
+    width: min(140vw, 500px);
   }
 
-  .hero__visual::after {
-    width: 64vw;
-    right: -8vw;
-    bottom: 4%;
-    opacity: 0.42;
+  .hero__visual-pawl {
+    right: max(-100vw, -400px);
   }
 
   .hero h1 {
