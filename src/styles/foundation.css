@@ -162,16 +162,22 @@
 }
 
 .foundation__degrees strong {
-  display: block;
-
   font-family: "Space Grotesk", sans-serif;
   font-size: 1.2rem;
 }
 
-.foundation__degrees p {
+.foundation__degrees p, .foundation__degrees .sub {
   margin: 0.25rem 0 0;
   color: var(--muted);
   font-family: "Inter", sans-serif;
+}
+
+.foundation__degrees .sub {
+  font-size: 0.95rem;
+  margin-left: 0.25rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #61657c;
 }
 
 @media (max-width: 800px) {

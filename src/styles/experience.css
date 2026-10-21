@@ -220,9 +220,9 @@
   display: grid;
   place-items: center;
 
-  border-radius: 50%;
-  background: #eef2ff;
-  color: var(--blue);
+  border-radius: 25%;
+  background: rgba(0, 0, 0, 0.025);
+  color: var(--muted);
 
   font-family: "Space Grotesk", sans-serif;
   font-size: 1.35rem;
@@ -266,8 +266,8 @@
   padding: 0.38rem 0.72rem;
   border-radius: 999px;
 
-  background: #eef2ff;
-  color: #3347a9;
+  background: #fff2ee;
+  color: #a94733;
 
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.75rem;

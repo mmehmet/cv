@@ -34,22 +34,23 @@
 .hero__visual-base, .hero__visual-pawl {
   position: absolute;
   top: 22%;
-  right: -40vw;
+  right: -20vw;
 
   width: min(100vw, 1440px);
   max-width: none;
   height: auto;
 
   opacity: 0.45;
-  filter: blur(10px);
+  filter: blur(3px);
 
   transform: rotate(22deg);
   transform-origin: center center;
 }
 
 .hero__visual-pawl {
-  right: -82vw;
+  right: -62vw;
   transform: rotate(0);
+  margin-top: -9px;
 }
 
 .hero__visual-base {
@@ -120,23 +121,22 @@
   max-width: 860px;
 }
 
+.hero h1 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
 .hero__role {
   margin: 0 0 1rem;
   font-family: "IBM Plex Mono", monospace;
   color: var(--blue);
-  font-size: 0.88rem;
+  font-size: 1.15rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-}
-
-.hero h1 {
-  margin: 0;
-  max-width: 10ch;
-  color: var(--text);
-  font-size: clamp(2.8rem, 6vw, 5.2rem);
-  line-height: 0.98;
-  letter-spacing: -0.045em;
 }
 
 .hero__mission {
@@ -253,10 +253,6 @@
     right: max(-100vw, -400px);
   }
 
-  .hero h1 {
-    max-width: none;
-  }
-
   .hero__mission {
     max-width: 100%;
     margin-top: 1.5rem;
@@ -341,7 +337,7 @@
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(-33.333333%);
   }
 }
 

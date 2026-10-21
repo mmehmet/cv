@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Automed",
+    "url": "https://automedsystems.com.au/",
+    "logo": "/logos/automed.png"
+  },
+  {
+    "name": "Glow",
+    "url": "https://www.glowfeed.com/",
+    "logo": "/logos/glow.png"
+  },
+  {
+    "name": "Banxa",
+    "url": "https://banxa.com/",
+    "logo": "/logos/banxa.jpg"
+  },
+  {
+    "name": "The Pistol",
+    "url": "https://thepistol.com.au/",
+    "logo": "/logos/the-pistol.jpg"
+  },
+  {
+    "name": "Tall Bob",
+    "url": "https://tallbob.com/",
+    "logo": "/logos/tallbob.png"
+  },
+  {
+    "name": "EonX",
+    "url": "https://www.eonx.com/",
+    "logo": "/logos/eonx.jpg"
+  },
+  {
+    "name": "Zib Digital",
+    "url": "https://zibdigital.com.au/",
+    "logo": "/logos/zib.png"
+  },
+  {
+    "name": "eLedger",
+    "url": "https://eledger.com.au/",
+    "logo": "/logos/eledger.png"
+  }
+]
