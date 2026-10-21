@@ -318,7 +318,7 @@
   width: 46px;
   height: 46px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 3px;
 }
 
 .hero__ticker-viewport:hover .hero__ticker-track {
