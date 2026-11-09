@@ -1,0 +1,414 @@
+---
+import '../styles/story.css';
+
+const panels = [
+  {
+    image: '/images/story/brief.webp',
+    portrait: '/images/story/brief-resp.webp',
+    alt: 'A project lead is handed a difficult brief',
+    copy: "Oh is that the new project? This might be a problem.",
+  },
+  {
+    image: '/images/story/candidates.webp',
+    portrait: '/images/story/candidates-resp.webp',
+    alt: 'Four potential specialists appear on a candidate screen, all unavailable',
+    copy: "It's as you suspected – you don't have anyone for this!",
+    kind: 'thought',
+  },
+  {
+    image: '/images/story/phone-guy.webp',
+    portrait: '/images/story/phone-guy-resp.webp',
+    alt: 'The project lead picks up the phone',
+    copy: 'I need your best available talent, right away!',
+  },
+  {
+    image: '/images/story/m.webp',
+    portrait: '/images/story/m-resp.webp',
+    alt: 'M answers the telephone from her office',
+    copy: 'My guy is busy.',
+  },
+  {
+    image: '/images/story/sharks.webp',
+    portrait: '/images/story/sharks-resp.webp',
+    alt: 'Bond is fighting sharks while the bad guys get away',
+  },
+  {
+    image: '/images/story/phone-guy-2.webp',
+    portrait: '/images/story/phone-guy-2-resp.webp',
+    alt: 'The project lead tries again',
+    copy: "Who can you just drop in and they'll hit the ground running?",
+    kind: 'thought',
+  },
+  {
+    image: '/images/story/explody.webp',
+    portrait: '/images/story/explody-resp.webp',
+    alt: 'Ethan runs from an explosion while his phone rings',
+    copy: 'Your call could not be connected...',
+  },
+  {
+    image: '/images/story/phone-guy-2.webp',
+    portrait: '/images/story/phone-guy-2-resp.webp',
+    alt: 'The project lead tries another call',
+    copy: "Who even has the skills to make it work?",
+    kind: 'thought',
+  },
+  {
+    image: '/images/story/booth.webp',
+    portrait: '/images/story/booth-resp.webp',
+    alt: 'A phone handset dangles off the hook',
+    copy: "Maybe you're calling the wrong people...",
+    kind: 'thought',
+  },
+  {
+    image: '/images/story/phone-guy.webp',
+    portrait: '/images/story/phone-guy-resp.webp',
+    alt: 'The project lead keeps searching',
+    copy: 'I need a hired gun! Can you help me out?',
+  },
+  {
+    image: '/images/story/ari.webp',
+    portrait: '/images/story/ari-resp.webp',
+    alt: 'Ari answers the phone from his office',
+    copy: 'I got just the guy! He just wrapped up his last assignment.',
+  },
+  {
+    image: '/images/story/phone-guy-3.webp',
+    portrait: '/images/story/phone-guy-3-resp.webp',
+    alt: 'The project lead responds immediately',
+    copy: 'Send me his details!',
+  },
+  {
+    image: '/images/story/message.webp',
+    portrait: '/images/story/message-resp.webp',
+    alt: 'A phone lights up with a new message',
+    final: true,
+  },
+];
+---
+
+<section
+  id="story"
+  class="story"
+  data-story-stage
+  aria-label="The search for the right hired gun"
+>
+  {
+    panels.map((panel, index) => {
+      return (
+        <article
+          id={`story-panel-${index + 1}`}
+          class="story__panel"
+          hidden={index !== 0}
+          aria-hidden={index === 0 ? 'false' : 'true'}
+        >
+          <div class="story__visual">
+            {
+              panel.portrait ? (
+                <picture>
+                  <source media="(max-width: 700px)" srcset={panel.portrait} />
+                  <img src={panel.image} alt={panel.alt} />
+                </picture>
+              ) : (
+                <img src={panel.image} alt={panel.alt} />
+              )
+            }
+          </div>
+
+          {
+            panel.copy && (
+              <div class:list={['story__copy', { 'story__copy--final': panel.final }]}>
+                {
+                  panel.final ? (
+                    <a class="story__message" href="#experience">
+                      “{panel.copy}”
+                    </a>
+                  ) : (
+                    <p class:list={['story__text', { 'story__text--thought': panel.kind === 'thought' }]}>
+                      {panel.kind === 'thought' ? panel.copy : `“${panel.copy}”`}
+                    </p>
+                  )
+                }
+              </div>
+            )
+          }
+
+          <button
+            class="story__back"
+            type="button"
+            data-story-back
+            aria-label={index === 0 ? 'Return to the landing page' : 'Return to the previous panel'}
+          />
+
+          {
+            !panel.final && (
+              <button
+                class="story__advance"
+                type="button"
+                data-story-advance
+                aria-label="Continue to the next part of the story"
+              />
+            )
+          }
+        </article>
+      );
+    })
+  }
+</section>
+
+<script>
+  const root = document.documentElement;
+  const body = document.body;
+  const mobileQuery = window.matchMedia('(max-width: 700px)');
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const heroLink = document.querySelector<HTMLAnchorElement>('.hero__name');
+  const story = document.querySelector<HTMLElement>('[data-story-stage]');
+  const storyPanels = Array.from(document.querySelectorAll<HTMLElement>('.story__panel'));
+  let activeIndex = 0;
+  let wheelLocked = false;
+  let wheelDirection = 0;
+  let wheelReleaseTimer = 0;
+  let touchStartY = 0;
+  let touchCurrentY = 0;
+  let landingTouchStartY = 0;
+  let landingTouchCurrentY = 0;
+
+  const setStoryHeight = () => {
+
+    if (mobileQuery.matches) {
+      root.style.setProperty('--story-mobile-height', `${window.screen.height}px`);
+    } else {
+      root.style.removeProperty('--story-mobile-height');
+    }
+  };
+
+  const showPanel = (nextIndex: number) => {
+    if (nextIndex < 0 || nextIndex >= storyPanels.length || nextIndex === activeIndex) return;
+
+    storyPanels[activeIndex]?.setAttribute('hidden', '');
+    storyPanels[activeIndex]?.setAttribute('aria-hidden', 'true');
+
+    activeIndex = nextIndex;
+
+    storyPanels[activeIndex]?.removeAttribute('hidden');
+    storyPanels[activeIndex]?.setAttribute('aria-hidden', 'false');
+  };
+
+  const showLanding = () => {
+    root.classList.add('story-is-jumping');
+    body.classList.remove('story-active');
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
+    requestAnimationFrame(() => {
+      root.classList.remove('story-is-jumping');
+    });
+  };
+
+  const showStory = () => {
+    showPanel(0);
+    root.classList.add('story-is-jumping');
+    body.classList.add('story-active');
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
+    requestAnimationFrame(() => {
+      root.classList.remove('story-is-jumping');
+    });
+  };
+
+  setStoryHeight();
+  body.classList.add('story-locked');
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  window.addEventListener('resize', setStoryHeight);
+  window.addEventListener('orientationchange', setStoryHeight);
+  mobileQuery.addEventListener('change', setStoryHeight);
+
+  document.querySelectorAll<HTMLButtonElement>('[data-story-advance]').forEach((button) => {
+    button.addEventListener('click', () => {
+      showPanel(activeIndex + 1);
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-story-back]').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (activeIndex === 0) {
+        showLanding();
+      } else {
+        showPanel(activeIndex - 1);
+      }
+    });
+  });
+
+  heroLink?.addEventListener('click', (event) => {
+    event.preventDefault();
+    showStory();
+  });
+
+  document.querySelector<HTMLAnchorElement>('.story__message')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    body.classList.remove('story-active', 'story-locked');
+    root.classList.add('story-is-jumping');
+    document.querySelector('#experience')?.scrollIntoView({ behavior: 'auto', block: 'start' });
+
+    requestAnimationFrame(() => {
+      root.classList.remove('story-is-jumping');
+    });
+  });
+
+  hero?.addEventListener('wheel', (event) => {
+    if (event.deltaY <= 0) return;
+
+    event.preventDefault();
+    if (wheelLocked) return;
+
+    wheelLocked = true;
+    wheelDirection = 1;
+    showStory();
+
+    wheelReleaseTimer = window.setTimeout(() => {
+      wheelLocked = false;
+      wheelDirection = 0;
+    }, 180);
+  }, { passive: false });
+
+  hero?.addEventListener('touchstart', (event) => {
+    landingTouchStartY = event.touches[0]?.clientY ?? 0;
+    landingTouchCurrentY = landingTouchStartY;
+  }, { passive: true });
+
+  hero?.addEventListener('touchmove', (event) => {
+    landingTouchCurrentY = event.touches[0]?.clientY ?? landingTouchCurrentY;
+    if (landingTouchStartY - landingTouchCurrentY > 8) event.preventDefault();
+  }, { passive: false });
+
+  hero?.addEventListener('touchend', () => {
+    if (landingTouchStartY - landingTouchCurrentY >= 45) showStory();
+  });
+
+  story?.addEventListener('wheel', (event) => {
+    const direction = Math.sign(event.deltaY);
+    const atBoundary =
+      (direction < 0 && activeIndex === 0) ||
+      (direction > 0 && activeIndex === storyPanels.length - 1);
+
+    if (!direction) return;
+
+    if (wheelLocked) {
+      event.preventDefault();
+      window.clearTimeout(wheelReleaseTimer);
+      wheelReleaseTimer = window.setTimeout(() => {
+        wheelLocked = false;
+        wheelDirection = 0;
+      }, 180);
+      return;
+    }
+
+    if (atBoundary) {
+      if (direction < 0 && activeIndex === 0) {
+        event.preventDefault();
+        wheelLocked = true;
+        wheelDirection = -1;
+        showLanding();
+
+        wheelReleaseTimer = window.setTimeout(() => {
+          wheelLocked = false;
+          wheelDirection = 0;
+        }, 180);
+      }
+
+      return;
+    }
+
+    event.preventDefault();
+    wheelLocked = true;
+    wheelDirection = direction;
+    showPanel(activeIndex + direction);
+
+    wheelReleaseTimer = window.setTimeout(() => {
+      wheelLocked = false;
+      wheelDirection = 0;
+    }, 180);
+  }, { passive: false });
+
+  window.addEventListener('wheel', (event) => {
+    if (!wheelLocked) return;
+
+    const direction = Math.sign(event.deltaY);
+
+    if (direction && direction !== wheelDirection) {
+      window.clearTimeout(wheelReleaseTimer);
+      wheelLocked = false;
+      wheelDirection = 0;
+      return;
+    }
+
+    event.preventDefault();
+    window.clearTimeout(wheelReleaseTimer);
+    wheelReleaseTimer = window.setTimeout(() => {
+      wheelLocked = false;
+      wheelDirection = 0;
+    }, 180);
+  }, { passive: false, capture: true });
+
+  story?.addEventListener('touchstart', (event) => {
+    touchStartY = event.touches[0]?.clientY ?? 0;
+    touchCurrentY = touchStartY;
+  }, { passive: true });
+
+  story?.addEventListener('touchmove', (event) => {
+    touchCurrentY = event.touches[0]?.clientY ?? touchCurrentY;
+    const distance = touchStartY - touchCurrentY;
+    const direction = Math.sign(distance);
+    const atBoundary =
+      (direction < 0 && activeIndex === 0) ||
+      (direction > 0 && activeIndex === storyPanels.length - 1);
+
+    const returningToLanding = direction < 0 && activeIndex === 0;
+    if (Math.abs(distance) > 8 && (!atBoundary || returningToLanding)) event.preventDefault();
+  }, { passive: false });
+
+  story?.addEventListener('touchend', () => {
+    const distance = touchStartY - touchCurrentY;
+    if (Math.abs(distance) < 45) return;
+
+    if (distance < 0 && activeIndex === 0) {
+      showLanding();
+      return;
+    }
+
+    showPanel(activeIndex + Math.sign(distance));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!story) return;
+
+    const heroBounds = hero?.getBoundingClientRect();
+    const heroIsVisible =
+      !body.classList.contains('story-active') &&
+      heroBounds &&
+      heroBounds.top <= 1 &&
+      heroBounds.bottom >= window.innerHeight - 1;
+
+    if (heroIsVisible && ['ArrowDown', 'PageDown', ' '].includes(event.key)) {
+      event.preventDefault();
+      showStory();
+      return;
+    }
+
+    const storyIsVisible = body.classList.contains('story-active');
+    if (!storyIsVisible) return;
+
+    if (['ArrowDown', 'PageDown', ' '].includes(event.key) && activeIndex < storyPanels.length - 1) {
+      event.preventDefault();
+      showPanel(activeIndex + 1);
+    }
+
+    if (['ArrowUp', 'PageUp'].includes(event.key) && activeIndex > 0) {
+      event.preventDefault();
+      showPanel(activeIndex - 1);
+    }
+
+    if (['ArrowUp', 'PageUp'].includes(event.key) && activeIndex === 0) {
+      event.preventDefault();
+      showLanding();
+    }
+  });
+</script>
