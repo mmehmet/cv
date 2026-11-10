@@ -123,6 +123,11 @@
     brightness(1.02);
 }
 
+.hero__name:hover .hero__letter,
+.hero__name:focus-visible .hero__letter {
+  animation-play-state: paused;
+}
+
 .hero__name:focus-visible {
   outline: 3px solid #f2eee8;
   outline-offset: 0.16em;

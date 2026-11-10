@@ -1,5 +1,6 @@
 ---
 import '../styles/experience.css';
+import companies from '../data/companies.json';
 import experience from '../data/experience.json';
 
 const formatYear = (value: string | null) => {
@@ -7,124 +8,312 @@ const formatYear = (value: string | null) => {
   return value.slice(0, 4);
 };
 
-const visibleExperience = experience.filter((item) =>
-  ![
-    'Zib Digital',
-    'Mehmetech Pty Ltd',
-  ].includes(item.company)
-);
+const visibleExperience = experience;
+const tickerCopies = 3;
 ---
 
 <section id="experience" class="experience section section--light">
-  <div class="container">
-    <div class="experience__teaser">
-      <div class="experience__copy">
-        <p class="eyebrow">Experience</p>
+  <div id="experience-slides" class="experience__deck">
+    <div class="experience__home">
+      <div class="experience__index fullscreen-grid" aria-label="Select an employer">
+        <div class="experience__intro-tile fullscreen-grid__item">
+          <div class="experience__copy">
+            <p class="eyebrow">Mic Mehmet: Gun for hire</p>
+          </div>
 
-        <h2>Knowledge compounds.</h2>
+          <div class="experience__image" aria-hidden="true">
+            <img src="/images/tallbob-api.png" alt="" />
+          </div>
+        </div>
 
-        <p class="lead">
-          All the knowledge and experience I bring was forged over time - and is part of the package. 
-        </p>
-
-        <button
-          class="button button--primary experience__toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="experience-panel"
-        >
-          See my experience
-        </button>
-      </div>
-
-      <div class="experience__image" aria-hidden="true">
-        <img src="/images/tallbob-api.png" alt="API doc screenshot" />
-      </div>
-    </div>
-
-    <div
-      id="experience-panel"
-      class="experience__panel"
-    >
-      <div class="experience__grid">
         {
-          visibleExperience.map((item) => (
-            <details class="experience-card">
-              <summary class="experience-card__summary">
-                <div class="experience-card__heading">
-                  <div>
-                    <h3>{item.company}</h3>
-
-                    <span class="experience-card__dates">
-                      {formatYear(item.start)} – {formatYear(item.end)}
-                    </span>
-                  </div>
-
-                  <span class="experience-card__toggle" aria-hidden="true">
-                    <span class="experience-card__plus">+</span>
-                    <span class="experience-card__minus">−</span>
-                  </span>
-                </div>
-
-                <div class="experience-card__tags">
-                  {
-                    item.technologies.slice(0, 4).map((technology) => (
-                      <span>{technology}</span>
-                    ))
-                  }
-                </div>
-
-                <p>{item.summary}</p>
-              </summary>
-
-              <div class="experience-card__detail">
-                <p class="experience-card__description">
-                  {item.description}
-                </p>
-
-                <div class="experience-card__all-tech">
-                  {
-                    item.technologies.map((technology) => (
-                      <span>{technology}</span>
-                    ))
-                  }
-                </div>
-              </div>
-            </details>
+          visibleExperience.map((item, index) => (
+            <button
+              class="experience-index-card fullscreen-grid__item"
+              type="button"
+              data-experience-target={index + 1}
+            >
+              <span class="experience-index-card__dates">
+                {formatYear(item.start)} – {formatYear(item.end)}
+              </span>
+              <strong>{item.company}</strong>
+              <span class="experience-index-card__summary">
+                {item.summary}
+              </span>
+            </button>
           ))
         }
       </div>
+
+      <div class="experience-ticker" aria-label="Select an employer by logo">
+        <div class="experience-ticker__track">
+          {
+            Array.from({ length: tickerCopies }).map((_, groupIndex) => (
+              <div
+                class="experience-ticker__group"
+                aria-hidden={groupIndex > 0 ? 'true' : undefined}
+              >
+                {
+                  companies.map((company, index) => (
+                    <button
+                      class="experience-ticker__item"
+                      type="button"
+                      data-experience-target={index + 1}
+                      tabindex={groupIndex > 0 ? '-1' : undefined}
+                    >
+                      <img src={company.logo} alt="" />
+                      <span>{company.name}</span>
+                    </button>
+                  ))
+                }
+              </div>
+            ))
+          }
+        </div>
+      </div>
     </div>
+
+    <dialog class="experience-modal" aria-label="Experience details" tabindex="-1">
+      {
+        visibleExperience.map((item, index) => (
+          <article
+            id={index === visibleExperience.length - 1 ? 'final' : `experience-slide-${index + 1}`}
+            class:list={[
+              'experience-panel',
+              {
+                'experience-panel--dense': item.description.length > 800,
+                'experience-panel--very-dense': item.description.length > 1000,
+              },
+            ]}
+            data-experience-panel
+            aria-labelledby={`experience-panel-title-${index + 1}`}
+            hidden
+          >
+            <header class="experience-panel__header">
+              <img src={companies[index].logo} alt="" aria-hidden="true" />
+              <h2 id={`experience-panel-title-${index + 1}`}>{item.company}</h2>
+            </header>
+
+            <div class="experience-panel__body">
+              <p class="experience-panel__description">
+                {item.description}
+              </p>
+            </div>
+
+            <footer class="experience-panel__footer">
+              <span class="experience-panel__dates">
+                {formatYear(item.start)} – {formatYear(item.end)}
+              </span>
+
+              <div class="experience-panel__tags">
+                {
+                  item.technologies.slice(0, 4).map((technology) => (
+                    <span>{technology}</span>
+                  ))
+                }
+              </div>
+            </footer>
+          </article>
+        ))
+      }
+    </dialog>
   </div>
 </section>
 
 <script>
   const section = document.querySelector<HTMLElement>('.experience');
-  const toggle = document.querySelector<HTMLButtonElement>('.experience__toggle');
-  const panel = document.querySelector<HTMLElement>('.experience__panel');
-  const cards = document.querySelectorAll<HTMLDetailsElement>('.experience-card');
+  const modal = document.querySelector<HTMLDialogElement>('.experience-modal');
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-experience-panel]'));
+  const indexCards = document.querySelectorAll<HTMLButtonElement>('[data-experience-target]');
+  const navigationWindow = window as typeof window & {
+    __experienceNavigationController?: AbortController;
+  };
+  navigationWindow.__experienceNavigationController?.abort();
+  const navigationController = new AbortController();
+  navigationWindow.__experienceNavigationController = navigationController;
+  const navigationSignal = navigationController.signal;
+  let activeIndex = -1;
+  let wheelLocked = false;
+  let wheelReleaseTimer = 0;
+  let touchStartY = 0;
+  let touchCurrentY = 0;
+  const routeNavigationLockKey = 'full-page-navigation-lock-until';
 
-  toggle?.addEventListener('click', () => {
-    if (!section || !panel) return;
+  const routeNavigationIsLocked = () => {
+    try {
+      const isLocked = Number(window.sessionStorage.getItem(routeNavigationLockKey)) > Date.now();
+      if (isLocked) {
+        window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 350));
+      } else {
+        window.sessionStorage.removeItem(routeNavigationLockKey);
+      }
+      return isLocked;
+    } catch {
+      return false;
+    }
+  };
 
-    const open = section.classList.toggle('experience--open');
+  const lockRouteNavigation = () => {
+    try {
+      window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 500));
+    } catch {
+      // Navigation still works when session storage is unavailable.
+    }
+  };
 
-    toggle.setAttribute('aria-expanded', String(open));
+  const syncPanelUrl = () => {
+    const target = activeIndex === panels.length - 1
+      ? '/experience#final'
+      : '/experience';
 
-    toggle.textContent = open
-      ? 'Show less'
-      : 'See my experience';
+    if (`${window.location.pathname}${window.location.hash}` !== target) {
+      window.history.replaceState(window.history.state, '', target);
+    }
+  };
+
+  const showPanel = (nextIndex: number) => {
+    if (!modal || nextIndex < 0 || nextIndex >= panels.length || nextIndex === activeIndex) return;
+
+    panels[activeIndex]?.setAttribute('hidden', '');
+    panels[activeIndex]?.setAttribute('aria-hidden', 'true');
+    activeIndex = nextIndex;
+    panels[activeIndex]?.removeAttribute('hidden');
+    panels[activeIndex]?.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-labelledby', `experience-panel-title-${activeIndex + 1}`);
+
+    if (!modal.open) modal.showModal();
+    modal.focus({ preventScroll: true });
+    syncPanelUrl();
+  };
+
+  const closeModal = () => {
+    if (!modal || activeIndex < 0) return;
+
+    panels[activeIndex]?.setAttribute('hidden', '');
+    panels[activeIndex]?.setAttribute('aria-hidden', 'true');
+    activeIndex = -1;
+    if (modal.open) modal.close();
+    syncPanelUrl();
+  };
+
+  const showFinalStoryPanel = () => {
+    lockRouteNavigation();
+    window.location.assign('/#final');
+  };
+
+  const showFoundation = () => {
+    lockRouteNavigation();
+    window.location.assign('/foundation');
+  };
+
+  indexCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      showPanel(Number(card.dataset.experienceTarget) - 1);
+    }, { signal: navigationSignal });
   });
 
-  cards.forEach((card) => {
-    card.addEventListener('toggle', () => {
-      if (!card.open) return;
+  modal?.addEventListener('click', (event) => {
+    if (event.target === modal) closeModal();
+  }, { signal: navigationSignal });
 
-      cards.forEach((other) => {
-        if (other !== card) {
-          other.open = false;
-        }
-      });
-    });
-  });
+  modal?.addEventListener('cancel', (event) => {
+    event.preventDefault();
+    closeModal();
+  }, { signal: navigationSignal });
+
+  window.addEventListener('wheel', (event) => {
+    if (!section) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if (routeNavigationIsLocked()) return;
+
+    const direction = Math.sign(event.deltaY);
+    if (!direction) return;
+
+    if (wheelLocked) {
+      window.clearTimeout(wheelReleaseTimer);
+      wheelReleaseTimer = window.setTimeout(() => {
+        wheelLocked = false;
+      }, 300);
+      return;
+    }
+
+    wheelLocked = true;
+
+    if (modal?.open) {
+      const nextIndex = activeIndex + direction;
+      if (nextIndex >= 0 && nextIndex < panels.length) showPanel(nextIndex);
+    } else if (direction < 0) {
+      showFinalStoryPanel();
+    } else {
+      showFoundation();
+    }
+
+    window.clearTimeout(wheelReleaseTimer);
+    wheelReleaseTimer = window.setTimeout(() => {
+      wheelLocked = false;
+    }, 300);
+  }, { passive: false, capture: true, signal: navigationSignal });
+
+  section?.addEventListener('touchstart', (event) => {
+    touchStartY = event.touches[0]?.clientY ?? 0;
+    touchCurrentY = touchStartY;
+  }, { passive: true, signal: navigationSignal });
+
+  section?.addEventListener('touchmove', (event) => {
+    touchCurrentY = event.touches[0]?.clientY ?? touchCurrentY;
+    if (Math.abs(touchStartY - touchCurrentY) > 8) event.preventDefault();
+  }, { passive: false, signal: navigationSignal });
+
+  section?.addEventListener('touchend', () => {
+    const distance = touchStartY - touchCurrentY;
+    if (Math.abs(distance) < 45) return;
+
+    const direction = Math.sign(distance);
+
+    if (modal?.open) {
+      const nextIndex = activeIndex + direction;
+      if (nextIndex >= 0 && nextIndex < panels.length) showPanel(nextIndex);
+    } else if (direction < 0) {
+      showFinalStoryPanel();
+    } else {
+      showFoundation();
+    }
+  }, { signal: navigationSignal });
+
+  document.addEventListener('keydown', (event) => {
+    if (!section || document.body.classList.contains('story-active')) return;
+
+    const bounds = section.getBoundingClientRect();
+    const experienceIsVisible = bounds.top <= 1 && bounds.bottom >= window.innerHeight - 1;
+    if (!experienceIsVisible) return;
+
+    if (event.key === 'Escape' && modal?.open) {
+      event.preventDefault();
+      closeModal();
+      return;
+    }
+
+    if (['ArrowDown', 'PageDown', ' '].includes(event.key)) {
+      event.preventDefault();
+      if (!modal?.open) showFoundation();
+      else if (activeIndex < panels.length - 1) showPanel(activeIndex + 1);
+    }
+
+    if (['ArrowUp', 'PageUp'].includes(event.key)) {
+      event.preventDefault();
+      if (!modal?.open) showFinalStoryPanel();
+      else if (activeIndex > 0) showPanel(activeIndex - 1);
+    }
+  }, { signal: navigationSignal });
+
+  if (window.location.hash === '#final') {
+    showPanel(panels.length - 1);
+  }
+
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#final') showPanel(panels.length - 1);
+  }, { signal: navigationSignal });
 </script>

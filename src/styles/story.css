@@ -7,6 +7,8 @@
   height: 100vh;
   margin: 0;
   overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-x pinch-zoom;
   background: #000;
 }
 
@@ -31,6 +33,7 @@ html.story-is-jumping {
   grid-template-rows: minmax(0, 1fr) auto;
   overflow: hidden;
   background: #000;
+  cursor: pointer;
 }
 
 .story__panel[hidden] {
@@ -160,7 +163,7 @@ html.story-is-jumping {
 
 @media (max-width: 700px) {
   .story {
-    height: var(--story-mobile-height, 100vh);
+    height: var(--story-mobile-height, 100dvh);
   }
 
   .story__copy {

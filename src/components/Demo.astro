@@ -1,0 +1,137 @@
+---
+import '../styles/focus.css';
+---
+
+<section id="demo" class="current-focus section section--dark">
+  <div class="container current-focus__inner">
+    <div class="current-focus__copy">
+      <p class="eyebrow">Achievement Unlocked</p>
+
+      <h2>
+        You found the <span>hidden section!</span>
+      </h2>
+
+      <p class="lead">
+        Here's a litle demo wich explores how real-time voice, open-weight models,
+        dedicated inference hardware, orchestration, tools, memory, and
+        application logic fit together to create a useful AI system.
+      </p>
+
+      <p class="current-focus__secondary">
+        The interesting problems are rarely just about choosing the right model.
+        They’re about everything around it: latency, context, routing,
+        reliability, interfaces, and deciding what should happen where.
+      </p>
+    </div>
+
+    <div class="current-focus__system" aria-label="Simplified AI system architecture">
+      <div class="focus-node focus-node--voice">
+        <span class="focus-node__index">01</span>
+        <strong>Input</strong>
+        <small>Telephone audio or realtime text enters the system</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--speech">
+        <span class="focus-node__index">02</span>
+        <strong>Data</strong>
+        <small>Audio processing, transcription and data acquisition</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--orchestration">
+        <span class="focus-node__index">03</span>
+        <strong>Orchestration</strong>
+        <small>Context, state, tools, longterm strategy, and immediate routing</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--model">
+        <span class="focus-node__index">04</span>
+        <strong>Processing</strong>
+        <small>Inference or code executes on local hardware</small>
+      </div>
+
+      <div class="focus-link" aria-hidden="true">
+        <span></span>
+      </div>
+
+      <div class="focus-node focus-node--response">
+        <span class="focus-node__index">05</span>
+        <strong>Response</strong>
+        <small>Useful output returned as text or streaming audio</small>
+      </div>
+    </div>
+
+    <div class="current-focus__aside">
+      <span>TOOLS</span>
+      <span>MEMORY</span>
+      <span>RETRIEVAL</span>
+      <span>APPLICATION LOGIC</span>
+      <span>LOCAL INFERENCE</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  const demoWindow = window as typeof window & {
+    __demoNavigationController?: AbortController;
+  };
+  demoWindow.__demoNavigationController?.abort();
+  const navigationController = new AbortController();
+  demoWindow.__demoNavigationController = navigationController;
+  const navigationSignal = navigationController.signal;
+  const routeNavigationLockKey = 'full-page-navigation-lock-until';
+  let navigationStarted = false;
+  let touchStartY = 0;
+  let touchCurrentY = 0;
+
+  const showProjects = () => {
+    if (navigationStarted) return;
+    navigationStarted = true;
+
+    try {
+      window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 500));
+    } catch {
+      // Navigation still works when session storage is unavailable.
+    }
+
+    window.location.assign('/foundation#grid');
+  };
+
+  window.addEventListener('wheel', (event) => {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if (event.deltaY < 0) showProjects();
+  }, { passive: false, capture: true, signal: navigationSignal });
+
+  document.addEventListener('touchstart', (event) => {
+    touchStartY = event.touches[0]?.clientY ?? 0;
+    touchCurrentY = touchStartY;
+  }, { passive: true, signal: navigationSignal });
+
+  document.addEventListener('touchmove', (event) => {
+    touchCurrentY = event.touches[0]?.clientY ?? touchCurrentY;
+    if (Math.abs(touchStartY - touchCurrentY) > 8) event.preventDefault();
+  }, { passive: false, signal: navigationSignal });
+
+  document.addEventListener('touchend', () => {
+    if (touchStartY - touchCurrentY <= -45) showProjects();
+  }, { signal: navigationSignal });
+
+  document.addEventListener('keydown', (event) => {
+    if (!['ArrowUp', 'PageUp'].includes(event.key)) return;
+    event.preventDefault();
+    showProjects();
+  }, { signal: navigationSignal });
+</script>

@@ -6,20 +6,20 @@ const panels = [
     image: '/images/story/brief.webp',
     portrait: '/images/story/brief-resp.webp',
     alt: 'A project lead is handed a difficult brief',
-    copy: "Oh is that the new project? This might be a problem.",
+    copy: "Oh is that the new brief? This might be a problem.",
   },
   {
     image: '/images/story/candidates.webp',
     portrait: '/images/story/candidates-resp.webp',
     alt: 'Four potential specialists appear on a candidate screen, all unavailable',
-    copy: "It's as you suspected – you don't have anyone for this!",
+    copy: "It's as you suspected... you don't have anyone for this!",
     kind: 'thought',
   },
   {
     image: '/images/story/phone-guy.webp',
     portrait: '/images/story/phone-guy-resp.webp',
     alt: 'The project lead picks up the phone',
-    copy: 'I need your best available talent, right away!',
+    copy: 'I need your best talent, right away!',
   },
   {
     image: '/images/story/m.webp',
@@ -36,7 +36,7 @@ const panels = [
     image: '/images/story/phone-guy-2.webp',
     portrait: '/images/story/phone-guy-2-resp.webp',
     alt: 'The project lead tries again',
-    copy: "Who can you just drop in and they'll hit the ground running?",
+    copy: "Who can you just drop in to hit the ground running?",
     kind: 'thought',
   },
   {
@@ -49,21 +49,21 @@ const panels = [
     image: '/images/story/phone-guy-2.webp',
     portrait: '/images/story/phone-guy-2-resp.webp',
     alt: 'The project lead tries another call',
-    copy: "Who even has the skills to make it work?",
+    copy: "Who has the knowledge and skills I need for this?",
     kind: 'thought',
   },
   {
     image: '/images/story/booth.webp',
     portrait: '/images/story/booth-resp.webp',
     alt: 'A phone handset dangles off the hook',
-    copy: "Maybe you're calling the wrong people...",
+    copy: "It feels like all the best people are gone...",
     kind: 'thought',
   },
   {
     image: '/images/story/phone-guy.webp',
     portrait: '/images/story/phone-guy-resp.webp',
     alt: 'The project lead keeps searching',
-    copy: 'I need a hired gun! Can you help me out?',
+    copy: 'OK I need a hired gun – can you help me out?',
   },
   {
     image: '/images/story/ari.webp',
@@ -75,7 +75,7 @@ const panels = [
     image: '/images/story/phone-guy-3.webp',
     portrait: '/images/story/phone-guy-3-resp.webp',
     alt: 'The project lead responds immediately',
-    copy: 'Send me his details!',
+    copy: 'Great! Send me his details!',
   },
   {
     image: '/images/story/message.webp',
@@ -140,7 +140,14 @@ const panels = [
           />
 
           {
-            !panel.final && (
+            panel.final ? (
+              <button
+                class="story__advance story__finish"
+                type="button"
+                data-story-finish
+                aria-label="Continue to the Experience section"
+              />
+            ) : (
               <button
                 class="story__advance"
                 type="button"
@@ -167,22 +174,24 @@ const panels = [
   let wheelLocked = false;
   let wheelDirection = 0;
   let wheelReleaseTimer = 0;
+  let transitionLocked = false;
+  let transitionReleaseTimer = 0;
   let touchStartY = 0;
   let touchCurrentY = 0;
   let landingTouchStartY = 0;
   let landingTouchCurrentY = 0;
 
   const setStoryHeight = () => {
-
     if (mobileQuery.matches) {
-      root.style.setProperty('--story-mobile-height', `${window.screen.height}px`);
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      root.style.setProperty('--story-mobile-height', `${Math.round(viewportHeight)}px`);
     } else {
       root.style.removeProperty('--story-mobile-height');
     }
   };
 
-  const showPanel = (nextIndex: number) => {
-    if (nextIndex < 0 || nextIndex >= storyPanels.length || nextIndex === activeIndex) return;
+  const showPanel = (nextIndex: number, force = false) => {
+    if (nextIndex < 0 || nextIndex >= storyPanels.length || (!force && nextIndex === activeIndex)) return;
 
     storyPanels[activeIndex]?.setAttribute('hidden', '');
     storyPanels[activeIndex]?.setAttribute('aria-hidden', 'true');
@@ -214,11 +223,52 @@ const panels = [
     });
   };
 
+  const showExperience = () => {
+    window.location.assign('/experience');
+  };
+
+  const showFinalStoryPanel = () => {
+    showPanel(storyPanels.length - 1, true);
+
+    transitionLocked = true;
+    wheelLocked = true;
+    wheelDirection = -1;
+    window.clearTimeout(transitionReleaseTimer);
+    window.clearTimeout(wheelReleaseTimer);
+
+    transitionReleaseTimer = window.setTimeout(() => {
+      transitionLocked = false;
+    }, 220);
+
+    wheelReleaseTimer = window.setTimeout(() => {
+      wheelLocked = false;
+      wheelDirection = 0;
+    }, 220);
+
+    root.classList.add('story-is-jumping');
+    body.classList.add('story-active', 'story-locked');
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
+    requestAnimationFrame(() => {
+      root.classList.remove('story-is-jumping');
+    });
+  };
+
   setStoryHeight();
   body.classList.add('story-locked');
-  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
+  if (window.location.hash === '#final') {
+    showFinalStoryPanel();
+  } else {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }
+
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#final') showFinalStoryPanel();
+  });
   window.addEventListener('resize', setStoryHeight);
   window.addEventListener('orientationchange', setStoryHeight);
+  window.visualViewport?.addEventListener('resize', setStoryHeight);
   mobileQuery.addEventListener('change', setStoryHeight);
 
   document.querySelectorAll<HTMLButtonElement>('[data-story-advance]').forEach((button) => {
@@ -237,6 +287,10 @@ const panels = [
     });
   });
 
+  document.querySelector<HTMLButtonElement>('[data-story-finish]')?.addEventListener('click', () => {
+    showExperience();
+  });
+
   heroLink?.addEventListener('click', (event) => {
     event.preventDefault();
     showStory();
@@ -244,13 +298,7 @@ const panels = [
 
   document.querySelector<HTMLAnchorElement>('.story__message')?.addEventListener('click', (event) => {
     event.preventDefault();
-    body.classList.remove('story-active', 'story-locked');
-    root.classList.add('story-is-jumping');
-    document.querySelector('#experience')?.scrollIntoView({ behavior: 'auto', block: 'start' });
-
-    requestAnimationFrame(() => {
-      root.classList.remove('story-is-jumping');
-    });
+    showExperience();
   });
 
   hero?.addEventListener('wheel', (event) => {
@@ -314,6 +362,18 @@ const panels = [
         }, 180);
       }
 
+      if (direction > 0 && activeIndex === storyPanels.length - 1) {
+        event.preventDefault();
+        wheelLocked = true;
+        wheelDirection = 1;
+        showExperience();
+
+        wheelReleaseTimer = window.setTimeout(() => {
+          wheelLocked = false;
+          wheelDirection = 0;
+        }, 180);
+      }
+
       return;
     }
 
@@ -362,10 +422,15 @@ const panels = [
       (direction > 0 && activeIndex === storyPanels.length - 1);
 
     const returningToLanding = direction < 0 && activeIndex === 0;
-    if (Math.abs(distance) > 8 && (!atBoundary || returningToLanding)) event.preventDefault();
+    const continuingToExperience = direction > 0 && activeIndex === storyPanels.length - 1;
+    if (Math.abs(distance) > 8 && (!atBoundary || returningToLanding || continuingToExperience)) {
+      event.preventDefault();
+    }
   }, { passive: false });
 
   story?.addEventListener('touchend', () => {
+    if (transitionLocked) return;
+
     const distance = touchStartY - touchCurrentY;
     if (Math.abs(distance) < 45) return;
 
@@ -374,11 +439,21 @@ const panels = [
       return;
     }
 
+    if (distance > 0 && activeIndex === storyPanels.length - 1) {
+      showExperience();
+      return;
+    }
+
     showPanel(activeIndex + Math.sign(distance));
   });
 
   document.addEventListener('keydown', (event) => {
     if (!story) return;
+
+    if (transitionLocked && body.classList.contains('story-active')) {
+      event.preventDefault();
+      return;
+    }
 
     const heroBounds = hero?.getBoundingClientRect();
     const heroIsVisible =
@@ -396,9 +471,14 @@ const panels = [
     const storyIsVisible = body.classList.contains('story-active');
     if (!storyIsVisible) return;
 
-    if (['ArrowDown', 'PageDown', ' '].includes(event.key) && activeIndex < storyPanels.length - 1) {
+    if (['ArrowDown', 'PageDown', ' '].includes(event.key)) {
       event.preventDefault();
-      showPanel(activeIndex + 1);
+
+      if (activeIndex === storyPanels.length - 1) {
+        showExperience();
+      } else {
+        showPanel(activeIndex + 1);
+      }
     }
 
     if (['ArrowUp', 'PageUp'].includes(event.key) && activeIndex > 0) {
