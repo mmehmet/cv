@@ -83,6 +83,8 @@ import '../styles/focus.css';
 </section>
 
 <script>
+  import { createWheelStepDetector, lockWheelRouteNavigation } from '../scripts/wheel-navigation';
+
   const demoWindow = window as typeof window & {
     __demoNavigationController?: AbortController;
   };
@@ -90,20 +92,19 @@ import '../styles/focus.css';
   const navigationController = new AbortController();
   demoWindow.__demoNavigationController = navigationController;
   const navigationSignal = navigationController.signal;
-  const routeNavigationLockKey = 'full-page-navigation-lock-until';
+  const mobileQuery = window.matchMedia('(max-width: 700px)');
+  const detectWheelStep = createWheelStepDetector();
   let navigationStarted = false;
   let touchStartY = 0;
   let touchCurrentY = 0;
+  let touchStartX = 0;
+  let touchCurrentX = 0;
 
-  const showProjects = () => {
+  const showProjects = (wheelDirection = 0) => {
     if (navigationStarted) return;
     navigationStarted = true;
 
-    try {
-      window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 500));
-    } catch {
-      // Navigation still works when session storage is unavailable.
-    }
+    lockWheelRouteNavigation(wheelDirection);
 
     window.location.assign('/foundation#grid');
   };
@@ -112,21 +113,32 @@ import '../styles/focus.css';
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    if (event.deltaY < 0) showProjects();
+    const direction = detectWheelStep(event, mobileQuery.matches);
+    if (direction < 0) showProjects(direction);
   }, { passive: false, capture: true, signal: navigationSignal });
 
   document.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0]?.clientX ?? 0;
+    touchCurrentX = touchStartX;
     touchStartY = event.touches[0]?.clientY ?? 0;
     touchCurrentY = touchStartY;
   }, { passive: true, signal: navigationSignal });
 
   document.addEventListener('touchmove', (event) => {
+    touchCurrentX = event.touches[0]?.clientX ?? touchCurrentX;
     touchCurrentY = event.touches[0]?.clientY ?? touchCurrentY;
-    if (Math.abs(touchStartY - touchCurrentY) > 8) event.preventDefault();
+    const horizontalDistance = Math.abs(touchStartX - touchCurrentX);
+    const verticalDistance = Math.abs(touchStartY - touchCurrentY);
+    if (verticalDistance > 8 || (mobileQuery.matches && horizontalDistance > 8)) event.preventDefault();
   }, { passive: false, signal: navigationSignal });
 
   document.addEventListener('touchend', () => {
-    if (touchStartY - touchCurrentY <= -45) showProjects();
+    const horizontalDistance = touchStartX - touchCurrentX;
+    const verticalDistance = touchStartY - touchCurrentY;
+    const distance = mobileQuery.matches && Math.abs(horizontalDistance) > Math.abs(verticalDistance)
+      ? horizontalDistance
+      : verticalDistance;
+    if (distance <= -45) showProjects();
   }, { signal: navigationSignal });
 
   document.addEventListener('keydown', (event) => {

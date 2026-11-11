@@ -6,76 +6,33 @@ const panels = [
     image: '/images/story/brief.webp',
     portrait: '/images/story/brief-resp.webp',
     alt: 'A project lead is handed a difficult brief',
-    copy: "Oh is that the new brief? This might be a problem.",
-  },
-  {
-    image: '/images/story/candidates.webp',
-    portrait: '/images/story/candidates-resp.webp',
-    alt: 'Four potential specialists appear on a candidate screen, all unavailable',
-    copy: "It's as you suspected... you don't have anyone for this!",
-    kind: 'thought',
-  },
-  {
-    image: '/images/story/phone-guy.webp',
-    portrait: '/images/story/phone-guy-resp.webp',
-    alt: 'The project lead picks up the phone',
-    copy: 'I need your best talent, right away!',
-  },
-  {
-    image: '/images/story/m.webp',
-    portrait: '/images/story/m-resp.webp',
-    alt: 'M answers the telephone from her office',
-    copy: 'My guy is busy.',
+    copy: "Here's the new brief. We need to get someone in for it.",
   },
   {
     image: '/images/story/sharks.webp',
     portrait: '/images/story/sharks-resp.webp',
-    alt: 'Bond is fighting sharks while the bad guys get away',
-  },
-  {
-    image: '/images/story/phone-guy-2.webp',
-    portrait: '/images/story/phone-guy-2-resp.webp',
-    alt: 'The project lead tries again',
-    copy: "Who can you just drop in to hit the ground running?",
+    alt: 'Mic is fighting sharks',
+    copy: "You need someone with a particular set of skills...",
     kind: 'thought',
   },
   {
     image: '/images/story/explody.webp',
     portrait: '/images/story/explody-resp.webp',
-    alt: 'Ethan runs from an explosion while his phone rings',
-    copy: 'Your call could not be connected...',
-  },
-  {
-    image: '/images/story/phone-guy-2.webp',
-    portrait: '/images/story/phone-guy-2-resp.webp',
-    alt: 'The project lead tries another call',
-    copy: "Who has the knowledge and skills I need for this?",
-    kind: 'thought',
-  },
-  {
-    image: '/images/story/booth.webp',
-    portrait: '/images/story/booth-resp.webp',
-    alt: 'A phone handset dangles off the hook',
-    copy: "It feels like all the best people are gone...",
+    alt: 'Mic runs from an explosion',
+    copy: "Someone you just drop in and they the ground running.",
     kind: 'thought',
   },
   {
     image: '/images/story/phone-guy.webp',
     portrait: '/images/story/phone-guy-resp.webp',
-    alt: 'The project lead keeps searching',
-    copy: 'OK I need a hired gun – can you help me out?',
+    alt: 'The project lead reaches out to Ari',
+    copy: 'I need a hired gun – can you help me out?',
   },
   {
     image: '/images/story/ari.webp',
     portrait: '/images/story/ari-resp.webp',
     alt: 'Ari answers the phone from his office',
-    copy: 'I got just the guy! He just wrapped up his last assignment.',
-  },
-  {
-    image: '/images/story/phone-guy-3.webp',
-    portrait: '/images/story/phone-guy-3-resp.webp',
-    alt: 'The project lead responds immediately',
-    copy: 'Great! Send me his details!',
+    copy: "I got just the guy! I'll send you his details.",
   },
   {
     image: '/images/story/message.webp',
@@ -163,6 +120,12 @@ const panels = [
 </section>
 
 <script>
+  import {
+    createWheelStepDetector,
+    lockWheelRouteNavigation,
+    wheelRouteNavigationIsLocked,
+  } from '../scripts/wheel-navigation';
+
   const root = document.documentElement;
   const body = document.body;
   const mobileQuery = window.matchMedia('(max-width: 700px)');
@@ -178,8 +141,19 @@ const panels = [
   let transitionReleaseTimer = 0;
   let touchStartY = 0;
   let touchCurrentY = 0;
+  let touchStartX = 0;
+  let touchCurrentX = 0;
   let landingTouchStartY = 0;
   let landingTouchCurrentY = 0;
+  let landingTouchStartX = 0;
+  let landingTouchCurrentX = 0;
+  const detectWheelStep = createWheelStepDetector();
+
+  const getRawScrollDirection = (event: WheelEvent) => {
+    const horizontalScroll = mobileQuery.matches && Math.abs(event.deltaX) > Math.abs(event.deltaY);
+    return Math.sign(horizontalScroll ? event.deltaX : event.deltaY);
+  };
+  const getScrollDirection = (event: WheelEvent) => detectWheelStep(event, mobileQuery.matches);
 
   const setStoryHeight = () => {
     if (mobileQuery.matches) {
@@ -223,7 +197,8 @@ const panels = [
     });
   };
 
-  const showExperience = () => {
+  const showExperience = (wheelDirection = 0) => {
+    lockWheelRouteNavigation(wheelDirection);
     window.location.assign('/experience');
   };
 
@@ -302,7 +277,16 @@ const panels = [
   });
 
   hero?.addEventListener('wheel', (event) => {
-    if (event.deltaY <= 0) return;
+    const direction = getScrollDirection(event);
+    if (direction <= 0) {
+      if (!direction && event.deltaY > 0) event.preventDefault();
+      return;
+    }
+
+    if (wheelRouteNavigationIsLocked(direction)) {
+      event.preventDefault();
+      return;
+    }
 
     event.preventDefault();
     if (wheelLocked) return;
@@ -318,34 +302,44 @@ const panels = [
   }, { passive: false });
 
   hero?.addEventListener('touchstart', (event) => {
+    landingTouchStartX = event.touches[0]?.clientX ?? 0;
+    landingTouchCurrentX = landingTouchStartX;
     landingTouchStartY = event.touches[0]?.clientY ?? 0;
     landingTouchCurrentY = landingTouchStartY;
   }, { passive: true });
 
   hero?.addEventListener('touchmove', (event) => {
+    landingTouchCurrentX = event.touches[0]?.clientX ?? landingTouchCurrentX;
     landingTouchCurrentY = event.touches[0]?.clientY ?? landingTouchCurrentY;
-    if (landingTouchStartY - landingTouchCurrentY > 8) event.preventDefault();
+    const horizontalDistance = Math.abs(landingTouchStartX - landingTouchCurrentX);
+    const verticalDistance = landingTouchStartY - landingTouchCurrentY;
+    if (verticalDistance > 8 || (mobileQuery.matches && horizontalDistance > 8)) event.preventDefault();
   }, { passive: false });
 
   hero?.addEventListener('touchend', () => {
-    if (landingTouchStartY - landingTouchCurrentY >= 45) showStory();
+    const horizontalDistance = landingTouchStartX - landingTouchCurrentX;
+    const verticalDistance = landingTouchStartY - landingTouchCurrentY;
+    const distance = mobileQuery.matches && Math.abs(horizontalDistance) > Math.abs(verticalDistance)
+      ? horizontalDistance
+      : verticalDistance;
+    if (distance >= 45) showStory();
   });
 
   story?.addEventListener('wheel', (event) => {
-    const direction = Math.sign(event.deltaY);
+    const direction = getScrollDirection(event);
     const atBoundary =
       (direction < 0 && activeIndex === 0) ||
       (direction > 0 && activeIndex === storyPanels.length - 1);
 
     if (!direction) return;
 
+    if (wheelRouteNavigationIsLocked(direction)) {
+      event.preventDefault();
+      return;
+    }
+
     if (wheelLocked) {
       event.preventDefault();
-      window.clearTimeout(wheelReleaseTimer);
-      wheelReleaseTimer = window.setTimeout(() => {
-        wheelLocked = false;
-        wheelDirection = 0;
-      }, 180);
       return;
     }
 
@@ -366,7 +360,7 @@ const panels = [
         event.preventDefault();
         wheelLocked = true;
         wheelDirection = 1;
-        showExperience();
+        showExperience(direction);
 
         wheelReleaseTimer = window.setTimeout(() => {
           wheelLocked = false;
@@ -391,7 +385,7 @@ const panels = [
   window.addEventListener('wheel', (event) => {
     if (!wheelLocked) return;
 
-    const direction = Math.sign(event.deltaY);
+    const direction = getRawScrollDirection(event);
 
     if (direction && direction !== wheelDirection) {
       window.clearTimeout(wheelReleaseTimer);
@@ -401,21 +395,23 @@ const panels = [
     }
 
     event.preventDefault();
-    window.clearTimeout(wheelReleaseTimer);
-    wheelReleaseTimer = window.setTimeout(() => {
-      wheelLocked = false;
-      wheelDirection = 0;
-    }, 180);
   }, { passive: false, capture: true });
 
   story?.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0]?.clientX ?? 0;
+    touchCurrentX = touchStartX;
     touchStartY = event.touches[0]?.clientY ?? 0;
     touchCurrentY = touchStartY;
   }, { passive: true });
 
   story?.addEventListener('touchmove', (event) => {
+    touchCurrentX = event.touches[0]?.clientX ?? touchCurrentX;
     touchCurrentY = event.touches[0]?.clientY ?? touchCurrentY;
-    const distance = touchStartY - touchCurrentY;
+    const horizontalDistance = touchStartX - touchCurrentX;
+    const verticalDistance = touchStartY - touchCurrentY;
+    const distance = mobileQuery.matches && Math.abs(horizontalDistance) > Math.abs(verticalDistance)
+      ? horizontalDistance
+      : verticalDistance;
     const direction = Math.sign(distance);
     const atBoundary =
       (direction < 0 && activeIndex === 0) ||
@@ -431,7 +427,11 @@ const panels = [
   story?.addEventListener('touchend', () => {
     if (transitionLocked) return;
 
-    const distance = touchStartY - touchCurrentY;
+    const horizontalDistance = touchStartX - touchCurrentX;
+    const verticalDistance = touchStartY - touchCurrentY;
+    const distance = mobileQuery.matches && Math.abs(horizontalDistance) > Math.abs(verticalDistance)
+      ? horizontalDistance
+      : verticalDistance;
     if (Math.abs(distance) < 45) return;
 
     if (distance < 0 && activeIndex === 0) {

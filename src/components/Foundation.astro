@@ -50,12 +50,6 @@ import projects from '../data/projects.json';
       ))
     }
 
-    <a
-      class="foundation-tile foundation-tile--blank fullscreen-grid__item"
-      href="/demo"
-      aria-label="Open demo"
-    ></a>
-
     <article class="foundation-tile foundation-tile--education fullscreen-grid__item">
       <span class="foundation-tile__label">Education</span>
 
@@ -79,6 +73,8 @@ import projects from '../data/projects.json';
       </div>
     </article>
 
+    <a class="foundation-tile foundation-tile--blank fullscreen-grid__item" href="/demo" aria-label="Open demo"></a>
+
     <nav class="foundation-tile foundation-tile--links fullscreen-grid__item" aria-label="Links">
       <span class="foundation-tile__label">Links</span>
       <a href="/downloads/MMCV.pdf" download>Download CV</a>
@@ -89,7 +85,14 @@ import projects from '../data/projects.json';
 </section>
 
 <script>
+  import {
+    createWheelStepDetector,
+    lockWheelRouteNavigation,
+    wheelRouteNavigationIsLocked,
+  } from '../scripts/wheel-navigation';
+
   const foundation = document.querySelector<HTMLElement>('[data-foundation-stage]');
+  const mobileQuery = window.matchMedia('(max-width: 700px)');
   const panel = document.querySelector<HTMLElement>('[data-foundation-panel]');
   const grid = document.querySelector<HTMLElement>('[data-foundation-grid]');
   const back = document.querySelector<HTMLButtonElement>('.foundation__back');
@@ -102,34 +105,11 @@ import projects from '../data/projects.json';
   navigationWindow.__foundationNavigationController = navigationController;
   const navigationSignal = navigationController.signal;
   let gridVisible = false;
-  let wheelLocked = false;
-  let wheelReleaseTimer = 0;
+  const detectWheelStep = createWheelStepDetector();
   let touchStartY = 0;
   let touchCurrentY = 0;
-  const routeNavigationLockKey = 'full-page-navigation-lock-until';
-
-  const routeNavigationIsLocked = () => {
-    try {
-      const isLocked = Number(window.sessionStorage.getItem(routeNavigationLockKey)) > Date.now();
-      if (isLocked) {
-        window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 350));
-      } else {
-        window.sessionStorage.removeItem(routeNavigationLockKey);
-      }
-      return isLocked;
-    } catch {
-      return false;
-    }
-  };
-
-  const lockRouteNavigation = () => {
-    try {
-      window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 500));
-    } catch {
-      // Navigation still works when session storage is unavailable.
-    }
-  };
-
+  let touchStartX = 0;
+  let touchCurrentX = 0;
   const syncFoundationUrl = () => {
     const target = gridVisible ? '/foundation#grid' : '/foundation';
     if (`${window.location.pathname}${window.location.hash}` !== target) {
@@ -153,12 +133,12 @@ import projects from '../data/projects.json';
     syncFoundationUrl();
   };
 
-  const showExperienceIndex = () => {
-    lockRouteNavigation();
+  const showExperienceIndex = (wheelDirection = 0) => {
+    lockWheelRouteNavigation(wheelDirection);
     window.location.assign('/experience');
   };
 
-  back?.addEventListener('click', showExperienceIndex, { signal: navigationSignal });
+  back?.addEventListener('click', () => showExperienceIndex(), { signal: navigationSignal });
   forward?.addEventListener('click', showGrid, { signal: navigationSignal });
 
   window.addEventListener('wheel', (event) => {
@@ -167,52 +147,45 @@ import projects from '../data/projects.json';
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    if (routeNavigationIsLocked()) return;
-
-    const direction = Math.sign(event.deltaY);
-    if (!direction) return;
-
-    if (wheelLocked) {
-      window.clearTimeout(wheelReleaseTimer);
-      wheelReleaseTimer = window.setTimeout(() => {
-        wheelLocked = false;
-      }, 300);
-      return;
-    }
-
-    wheelLocked = true;
+    const direction = detectWheelStep(event, mobileQuery.matches);
+    if (!direction || wheelRouteNavigationIsLocked(direction)) return;
 
     if (gridVisible) {
-      if (direction < 0) showPanel();
+      if (direction < 0) showExperienceIndex(direction);
     } else if (direction < 0) {
-      showExperienceIndex();
+      showExperienceIndex(direction);
     } else {
       showGrid();
     }
 
-    window.clearTimeout(wheelReleaseTimer);
-    wheelReleaseTimer = window.setTimeout(() => {
-      wheelLocked = false;
-    }, 300);
   }, { passive: false, capture: true, signal: navigationSignal });
 
   foundation?.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0]?.clientX ?? 0;
+    touchCurrentX = touchStartX;
     touchStartY = event.touches[0]?.clientY ?? 0;
     touchCurrentY = touchStartY;
   }, { passive: true, signal: navigationSignal });
 
   foundation?.addEventListener('touchmove', (event) => {
+    touchCurrentX = event.touches[0]?.clientX ?? touchCurrentX;
     touchCurrentY = event.touches[0]?.clientY ?? touchCurrentY;
-    if (Math.abs(touchStartY - touchCurrentY) > 8) event.preventDefault();
+    const horizontalDistance = Math.abs(touchStartX - touchCurrentX);
+    const verticalDistance = Math.abs(touchStartY - touchCurrentY);
+    if (verticalDistance > 8 || (mobileQuery.matches && horizontalDistance > 8)) event.preventDefault();
   }, { passive: false, signal: navigationSignal });
 
   foundation?.addEventListener('touchend', () => {
-    const distance = touchStartY - touchCurrentY;
-    if (Math.abs(distance) < 45 || routeNavigationIsLocked()) return;
+    const horizontalDistance = touchStartX - touchCurrentX;
+    const verticalDistance = touchStartY - touchCurrentY;
+    const distance = mobileQuery.matches && Math.abs(horizontalDistance) > Math.abs(verticalDistance)
+      ? horizontalDistance
+      : verticalDistance;
+    if (Math.abs(distance) < 45) return;
 
     const direction = Math.sign(distance);
     if (gridVisible) {
-      if (direction < 0) showPanel();
+      if (direction < 0) showExperienceIndex();
     } else if (direction < 0) {
       showExperienceIndex();
     } else {
@@ -228,8 +201,7 @@ import projects from '../data/projects.json';
 
     if (['ArrowUp', 'PageUp'].includes(event.key)) {
       event.preventDefault();
-      if (gridVisible) showPanel();
-      else showExperienceIndex();
+      showExperienceIndex();
     }
   }, { signal: navigationSignal });
 

@@ -170,6 +170,10 @@
 }
 
 @media (max-width: 700px) {
+  .hero {
+    touch-action: pinch-zoom;
+  }
+
   .hero__story {
     width: min(100% - 2rem, 38rem);
     padding: 7vh 0 9vh;

@@ -163,6 +163,10 @@ html.story-is-jumping {
 
 @media (max-width: 700px) {
   .story {
+    touch-action: pinch-zoom;
+  }
+
+  .story {
     height: var(--story-mobile-height, 100dvh);
   }
 

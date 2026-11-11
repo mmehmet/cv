@@ -16,15 +16,19 @@ const tickerCopies = 3;
   <div id="experience-slides" class="experience__deck">
     <div class="experience__home">
       <div class="experience__index fullscreen-grid" aria-label="Select an employer">
-        <div class="experience__intro-tile fullscreen-grid__item">
+        <a
+          class="experience__intro-tile fullscreen-grid__item"
+          href="/foundation"
+          aria-label="Continue to Foundation"
+        >
           <div class="experience__copy">
-            <p class="eyebrow">Mic Mehmet: Gun for hire</p>
+            <p class="eyebrow">Mic Mehmet: Senior Software Engineer</p>
           </div>
 
           <div class="experience__image" aria-hidden="true">
-            <img src="/images/tallbob-api.png" alt="" />
+            <img src="/images/mic.webp" alt="Mic" />
           </div>
-        </div>
+        </a>
 
         {
           visibleExperience.map((item, index) => (
@@ -34,7 +38,7 @@ const tickerCopies = 3;
               data-experience-target={index + 1}
             >
               <span class="experience-index-card__dates">
-                {formatYear(item.start)} – {formatYear(item.end)}
+                {formatYear(item.start)}
               </span>
               <strong>{item.company}</strong>
               <span class="experience-index-card__summary">
@@ -91,13 +95,28 @@ const tickerCopies = 3;
           >
             <header class="experience-panel__header">
               <img src={companies[index].logo} alt="" aria-hidden="true" />
-              <h2 id={`experience-panel-title-${index + 1}`}>{item.company}</h2>
+              <div class="experience-panel__heading">
+                <h2 id={`experience-panel-title-${index + 1}`}>{item.company}</h2>
+              </div>
+              <button
+                class="experience-panel__close"
+                type="button"
+                data-experience-close
+                aria-label="Close experience details"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
             </header>
 
             <div class="experience-panel__body">
-              <p class="experience-panel__description">
-                {item.description}
-              </p>
+              <div class="experience-panel__content">
+                <ul class="experience-panel__roles" aria-label="Roles">
+                  {item.roles.map((role) => <li>{role}</li>)}
+                </ul>
+                <p class="experience-panel__description">
+                  {item.description}
+                </p>
+              </div>
             </div>
 
             <footer class="experience-panel__footer">
@@ -116,15 +135,43 @@ const tickerCopies = 3;
           </article>
         ))
       }
+
+      <button
+        class="experience-modal__nav-button experience-modal__nav-button--previous"
+        type="button"
+        data-experience-previous
+        aria-label="View previous experience"
+      >
+        <span aria-hidden="true">←</span>
+      </button>
+
+      <button
+        class="experience-modal__nav-button experience-modal__nav-button--next"
+        type="button"
+        data-experience-next
+        aria-label="View next experience"
+      >
+        <span aria-hidden="true">→</span>
+      </button>
     </dialog>
   </div>
 </section>
 
 <script>
+  import {
+    createWheelStepDetector,
+    lockWheelRouteNavigation,
+    wheelRouteNavigationIsLocked,
+  } from '../scripts/wheel-navigation';
+
   const section = document.querySelector<HTMLElement>('.experience');
+  const mobileQuery = window.matchMedia('(max-width: 700px)');
   const modal = document.querySelector<HTMLDialogElement>('.experience-modal');
   const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-experience-panel]'));
   const indexCards = document.querySelectorAll<HTMLButtonElement>('[data-experience-target]');
+  const closeButtons = document.querySelectorAll<HTMLButtonElement>('[data-experience-close]');
+  const previousButton = document.querySelector<HTMLButtonElement>('[data-experience-previous]');
+  const nextButton = document.querySelector<HTMLButtonElement>('[data-experience-next]');
   const navigationWindow = window as typeof window & {
     __experienceNavigationController?: AbortController;
   };
@@ -133,34 +180,11 @@ const tickerCopies = 3;
   navigationWindow.__experienceNavigationController = navigationController;
   const navigationSignal = navigationController.signal;
   let activeIndex = -1;
-  let wheelLocked = false;
-  let wheelReleaseTimer = 0;
+  const detectWheelStep = createWheelStepDetector();
   let touchStartY = 0;
   let touchCurrentY = 0;
-  const routeNavigationLockKey = 'full-page-navigation-lock-until';
-
-  const routeNavigationIsLocked = () => {
-    try {
-      const isLocked = Number(window.sessionStorage.getItem(routeNavigationLockKey)) > Date.now();
-      if (isLocked) {
-        window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 350));
-      } else {
-        window.sessionStorage.removeItem(routeNavigationLockKey);
-      }
-      return isLocked;
-    } catch {
-      return false;
-    }
-  };
-
-  const lockRouteNavigation = () => {
-    try {
-      window.sessionStorage.setItem(routeNavigationLockKey, String(Date.now() + 500));
-    } catch {
-      // Navigation still works when session storage is unavailable.
-    }
-  };
-
+  let touchStartX = 0;
+  let touchCurrentX = 0;
   const syncPanelUrl = () => {
     const target = activeIndex === panels.length - 1
       ? '/experience#final'
@@ -169,6 +193,11 @@ const tickerCopies = 3;
     if (`${window.location.pathname}${window.location.hash}` !== target) {
       window.history.replaceState(window.history.state, '', target);
     }
+  };
+
+  const syncNavigationButtons = () => {
+    if (previousButton) previousButton.disabled = activeIndex <= 0;
+    if (nextButton) nextButton.disabled = activeIndex < 0 || activeIndex >= panels.length - 1;
   };
 
   const showPanel = (nextIndex: number) => {
@@ -180,6 +209,7 @@ const tickerCopies = 3;
     panels[activeIndex]?.removeAttribute('hidden');
     panels[activeIndex]?.setAttribute('aria-hidden', 'false');
     modal.setAttribute('aria-labelledby', `experience-panel-title-${activeIndex + 1}`);
+    syncNavigationButtons();
 
     if (!modal.open) modal.showModal();
     modal.focus({ preventScroll: true });
@@ -196,13 +226,13 @@ const tickerCopies = 3;
     syncPanelUrl();
   };
 
-  const showFinalStoryPanel = () => {
-    lockRouteNavigation();
+  const showFinalStoryPanel = (wheelDirection = 0) => {
+    lockWheelRouteNavigation(wheelDirection);
     window.location.assign('/#final');
   };
 
-  const showFoundation = () => {
-    lockRouteNavigation();
+  const showFoundation = (wheelDirection = 0) => {
+    lockWheelRouteNavigation(wheelDirection);
     window.location.assign('/foundation');
   };
 
@@ -211,6 +241,18 @@ const tickerCopies = 3;
       showPanel(Number(card.dataset.experienceTarget) - 1);
     }, { signal: navigationSignal });
   });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener('click', closeModal, { signal: navigationSignal });
+  });
+
+  previousButton?.addEventListener('click', () => {
+    showPanel(activeIndex - 1);
+  }, { signal: navigationSignal });
+
+  nextButton?.addEventListener('click', () => {
+    showPanel(activeIndex + 1);
+  }, { signal: navigationSignal });
 
   modal?.addEventListener('click', (event) => {
     if (event.target === modal) closeModal();
@@ -227,48 +269,41 @@ const tickerCopies = 3;
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    if (routeNavigationIsLocked()) return;
-
-    const direction = Math.sign(event.deltaY);
-    if (!direction) return;
-
-    if (wheelLocked) {
-      window.clearTimeout(wheelReleaseTimer);
-      wheelReleaseTimer = window.setTimeout(() => {
-        wheelLocked = false;
-      }, 300);
-      return;
-    }
-
-    wheelLocked = true;
+    const direction = detectWheelStep(event, mobileQuery.matches);
+    if (!direction || wheelRouteNavigationIsLocked(direction)) return;
 
     if (modal?.open) {
       const nextIndex = activeIndex + direction;
       if (nextIndex >= 0 && nextIndex < panels.length) showPanel(nextIndex);
     } else if (direction < 0) {
-      showFinalStoryPanel();
+      showFinalStoryPanel(direction);
     } else {
-      showFoundation();
+      showFoundation(direction);
     }
 
-    window.clearTimeout(wheelReleaseTimer);
-    wheelReleaseTimer = window.setTimeout(() => {
-      wheelLocked = false;
-    }, 300);
   }, { passive: false, capture: true, signal: navigationSignal });
 
   section?.addEventListener('touchstart', (event) => {
+    touchStartX = event.touches[0]?.clientX ?? 0;
+    touchCurrentX = touchStartX;
     touchStartY = event.touches[0]?.clientY ?? 0;
     touchCurrentY = touchStartY;
   }, { passive: true, signal: navigationSignal });
 
   section?.addEventListener('touchmove', (event) => {
+    touchCurrentX = event.touches[0]?.clientX ?? touchCurrentX;
     touchCurrentY = event.touches[0]?.clientY ?? touchCurrentY;
-    if (Math.abs(touchStartY - touchCurrentY) > 8) event.preventDefault();
+    const horizontalDistance = Math.abs(touchStartX - touchCurrentX);
+    const verticalDistance = Math.abs(touchStartY - touchCurrentY);
+    if (verticalDistance > 8 || (mobileQuery.matches && horizontalDistance > 8)) event.preventDefault();
   }, { passive: false, signal: navigationSignal });
 
   section?.addEventListener('touchend', () => {
-    const distance = touchStartY - touchCurrentY;
+    const horizontalDistance = touchStartX - touchCurrentX;
+    const verticalDistance = touchStartY - touchCurrentY;
+    const distance = mobileQuery.matches && Math.abs(horizontalDistance) > Math.abs(verticalDistance)
+      ? horizontalDistance
+      : verticalDistance;
     if (Math.abs(distance) < 45) return;
 
     const direction = Math.sign(distance);

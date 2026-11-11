@@ -252,6 +252,7 @@
 @media (max-width: 700px) {
   .current-focus {
     min-height: auto;
+    touch-action: pinch-zoom;
   }
 
   .current-focus__copy {

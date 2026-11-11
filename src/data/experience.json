@@ -4,9 +4,7 @@
     "start": "2023-10",
     "end": "2026-10",
     "roles": [
-      "Senior Software Engineer",
-      "Head of Integrations",
-      "App Store Publishing"
+      "Senior Software Engineer"
     ],
     "summary": "AI voice systems, mobile app development, integrations, and instituting best-practices.",
     "description": "Helping transform both the products and the way the company builds them, drawing on accumulated knowledge and experience, to bring modern best-practices to a small but mature company. Introducing tools such as GitLab, Jenkins, and Bitwarden - all self-hosted and deployed by him - which paved the way for future integrations with new technologies also adopted by the company, like Slack and Zendesk. Building brand new, bleeding edge technology such as a real-time AI telephone receptionist, using open-weight models and dedicated inference hardware. Integrating wearable device technology into the mobile app is another example. More familiar solutions such as an API for a client using its own third-party engagement platform, and an integration with the NAB payment gateway.",
