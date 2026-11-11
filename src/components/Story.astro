@@ -19,7 +19,7 @@ const panels = [
     image: '/images/story/explody.webp',
     portrait: '/images/story/explody-resp.webp',
     alt: 'Mic runs from an explosion',
-    copy: "Someone you just drop in and they the ground running.",
+    copy: "Someone you drop in and they'll hit the ground running.",
     kind: 'thought',
   },
   {
@@ -33,11 +33,6 @@ const panels = [
     portrait: '/images/story/ari-resp.webp',
     alt: 'Ari answers the phone from his office',
     copy: "I got just the guy! I'll send you his details.",
-  },
-  {
-    image: '/images/story/message.webp',
-    portrait: '/images/story/message-resp.webp',
-    alt: 'A phone lights up with a new message',
     final: true,
   },
 ];
@@ -69,22 +64,27 @@ const panels = [
                 <img src={panel.image} alt={panel.alt} />
               )
             }
+
+            {
+              !panel.final && (
+                <a
+                  class="story__skip"
+                  href="/experience"
+                  data-story-skip
+                  aria-label="Skip the story and go to Experience"
+                >
+                  Skip
+                </a>
+              )
+            }
           </div>
 
           {
             panel.copy && (
-              <div class:list={['story__copy', { 'story__copy--final': panel.final }]}>
-                {
-                  panel.final ? (
-                    <a class="story__message" href="#experience">
-                      “{panel.copy}”
-                    </a>
-                  ) : (
-                    <p class:list={['story__text', { 'story__text--thought': panel.kind === 'thought' }]}>
-                      {panel.kind === 'thought' ? panel.copy : `“${panel.copy}”`}
-                    </p>
-                  )
-                }
+              <div class="story__copy">
+                <p class:list={['story__text', { 'story__text--thought': panel.kind === 'thought' }]}>
+                  {panel.kind === 'thought' ? panel.copy : `“${panel.copy}”`}
+                </p>
               </div>
             )
           }
@@ -266,14 +266,16 @@ const panels = [
     showExperience();
   });
 
+  document.querySelectorAll<HTMLAnchorElement>('[data-story-skip]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      showExperience();
+    });
+  });
+
   heroLink?.addEventListener('click', (event) => {
     event.preventDefault();
     showStory();
-  });
-
-  document.querySelector<HTMLAnchorElement>('.story__message')?.addEventListener('click', (event) => {
-    event.preventDefault();
-    showExperience();
   });
 
   hero?.addEventListener('wheel', (event) => {

@@ -81,6 +81,45 @@ html.story-is-jumping {
   object-position: center;
 }
 
+.story__skip {
+  position: absolute;
+  z-index: 6;
+  top: max(1.25rem, env(safe-area-inset-top));
+  right: max(1.25rem, env(safe-area-inset-right));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.5rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 9px;
+  background: rgba(5, 5, 5, 0.05);
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.story__skip:hover,
+.story__skip:focus-visible {
+  background: #fff;
+  color: #050505;
+  transform: translateY(-2px);
+}
+
+.story__skip:focus-visible {
+  outline: 4px solid #e02018;
+  outline-offset: 3px;
+}
+
 .story__copy {
   position: relative;
   z-index: 1;
@@ -93,8 +132,7 @@ html.story-is-jumping {
   border-top: 8px solid #000;
 }
 
-.story__copy p,
-.story__message {
+.story__copy p {
   position: relative;
   z-index: 4;
   max-width: 42ch;
@@ -106,6 +144,10 @@ html.story-is-jumping {
   letter-spacing: -0.045em;
   text-align: center;
   text-wrap: balance;
+}
+
+.story__text {
+  pointer-events: none;
 }
 
 .story__text--thought {
@@ -137,28 +179,9 @@ html.story-is-jumping {
 }
 
 .story__advance:focus-visible,
-.story__back:focus-visible,
-.story__message:focus-visible {
+.story__back:focus-visible {
   outline: 5px solid #e02018;
   outline-offset: -12px;
-}
-
-.story__copy--final {
-  background: #050505;
-  color: #fff;
-}
-
-.story__message {
-  display: block;
-  color: #fff;
-  text-decoration: none;
-  transition: color 160ms ease, transform 160ms ease;
-}
-
-.story__message:hover,
-.story__message:focus-visible {
-  color: #e02018;
-  transform: scale(1.025);
 }
 
 @media (max-width: 700px) {
